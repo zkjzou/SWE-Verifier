@@ -1,0 +1,41 @@
+Task: {{ task }}
+
+{% if history_message_format == "single_prompt" %}
+Recent steps (history_steps={{ history_steps }}, latest last):
+{% if history_steps == -1 %}
+{% set visible_steps = all_steps %}
+{% else %}
+{% set visible_steps = steps %}
+{% endif %}
+{% for step in visible_steps %}
+{% for msg in step %}
+{{ msg.role }}: {{ msg.content }}
+{% endfor %}
+{% endfor %}
+{% else %}
+Use the preceding conversation as the trajectory history.
+{% endif %}
+
+Choose the single best candidate action.
+Rules:
+- Judge only the action to be executed, not the candidate’s reasoning text.
+- Prefer commands that are safe, minimal, and likely to succeed.
+- Avoid destructive operations unless explicitly required.
+- If all candidates are invalid, pick the least harmful option.
+- For each candidate, predict a concrete next-state progression grounded in the context and assign a score.
+- Always include a scalar score for every candidate action.
+
+Output format:
+{% for c in candidates %}
+- Candidate {{ c.index + selection_index_base }}: 
+  REASONING: <2-5 sentences>
+  SCORE: <scalar 0.0-1.0>
+{% endfor %}
+REASONING: <2-5 sentences>
+FINAL: <number>
+
+Candidates:
+{% for c in candidates %}
+Candidate {{ c.index + selection_index_base }}:
+{{ c.content }}
+{% endfor %}

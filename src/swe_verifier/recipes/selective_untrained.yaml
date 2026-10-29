@@ -1,0 +1,43 @@
+name: selective_untrained
+description: minimax selective untrained recipe; extracted settings with explicit
+  release adaptations
+strategy: selective
+variant: untrained
+selector_role: verifier
+threshold: 0.3
+candidate_count: 3
+scoring_draws: 3
+format_retries: 0
+failure_policy: first_valid
+step_limit: 250
+max_calls: 10000
+cost_limit_usd: null
+policy_cost_limit_usd: 3.0
+wall_time_limit_seconds: 0
+rollout_count: 3
+trajectory_repetitions: 4
+policy:
+  name: openai/MiniMaxAI/MiniMax-M2.7
+  revision: null
+  backend: litellm
+  kwargs:
+    parallel_tool_calls: false
+  retries: 2
+  timeout_seconds: 1800.0
+verifier:
+  name: Qwen/Qwen3.5-4B
+  revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+  backend: native
+  kwargs:
+    temperature: 1.0
+    top_p: 0.95
+    top_k: 20
+    min_p: 0.0
+    presence_penalty: 1.5
+    repetition_penalty: 1.0
+    max_tokens: 2048
+    context_limit: 262144
+  retries: 2
+  timeout_seconds: 1800.0
+provenance_status: settings_extracted; runtime_parity_pending; explicit_native_output_cap_2048;
+  strict_format_failures

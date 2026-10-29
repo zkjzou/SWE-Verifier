@@ -1,0 +1,2 @@
+# Preserve exact historical prompt whitespace for tokenizer and request parity.
+src/swe_verifier/prompts/** -whitespace

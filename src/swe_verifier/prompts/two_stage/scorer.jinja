@@ -1,0 +1,38 @@
+Use the preceding conversation as the trajectory history. Evaluate only the single proposed next action in the immediately preceding assistant message.
+
+The candidate action has not been executed in the supplied history. Predict its outcome from the task, observed trajectory, and candidate action; do not treat an unavailable execution result as an observed fact.
+
+Use the supplied checklist as evaluation criteria. Do not rewrite or regenerate it. Checklist criteria describe what should be assessed; they do not establish that the candidate satisfies those criteria.
+
+Supplied checklist:
+
+<checklist>
+{{ checklist_text }}
+</checklist>
+
+For the candidate, output checklist item scores and their explanations, then candidate reasoning, then the overall score.
+
+Checklist evaluation rules:
+- Consider the candidate's likely immediate result and how that result changes progress toward the task when judging each checklist item.
+- Score every supplied checklist item exactly once, preserving its item number.
+- In <checklist_scores>, every "- Item N:" score line must be immediately followed by an indented "REASONING:" line for that same item. Do not write one shared checklist-level REASONING line after multiple item scores.
+- Score every checklist item from 0.0 to 1.0.
+
+Candidate reasoning and scoring rules:
+- In the final REASONING, cover the candidate's likely immediate result, how that result changes progress toward the task, and the overall justification for the score. Keep these as natural prose without extra field labels.
+- Incorporate the checklist evaluation when helpful. Do not mention checklist item numbers such as "Item 1" or "Item 2" in the final REASONING; describe the criterion directly instead.
+- Assign the overall SCORE using the score calibration in the system instructions.
+- Render all scores with two decimal places.
+- Generate exactly one candidate assessment. Do not output a candidate index, comparison of alternatives, or FINAL selection.
+- Do not output a summary, repeat the checklist criteria, or add a separate prediction section.
+- Use the following output format exactly, with no text after the terminal SCORE line.
+
+Output format:
+
+<checklist_scores>
+- Item 1: <score from 0.00 to 1.00>
+  REASONING: <short reason specific to checklist item 1>
+... repeat for every supplied checklist item ...
+</checklist_scores>
+REASONING: <brief candidate-local immediate observation, expected progress, and score justification in natural prose>
+SCORE: <overall score from 0.00 to 1.00>

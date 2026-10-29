@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+runs/
+.env
+*.safetensors
+*.bin
+data-output/
+
+# Local credentials and experiment outputs
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+*.log
+training/data/
+training/outputs/
+training/smoke-data/
+training/smoke-runs/

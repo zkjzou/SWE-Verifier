@@ -1,0 +1,1 @@
+Your previous verifier response was malformed because it did not select a valid candidate. Do not call tools. Repeat the evaluation using the required output format, give every candidate a score, and end with FINAL: <number> from {first_index} through {last_index}.

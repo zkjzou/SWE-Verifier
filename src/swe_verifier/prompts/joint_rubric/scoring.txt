@@ -1,0 +1,75 @@
+Use the preceding conversation as the trajectory history. Evaluate only the single proposed next action in the immediately preceding assistant message.
+
+The candidate action has not been executed in the supplied history. Predict its outcome from the task, observed trajectory, and candidate action; do not treat an unavailable execution result as an observed fact.
+
+Review the current trajectory, then produce the following assessment.
+
+1. Summary
+
+First output a <summary>...</summary> section that captures the current trajectory state before evaluating the candidate.
+
+Summary field definitions:
+- Task_State: concise task goal and current state.
+- Completed_Progress: confirmed useful work already done.
+- Open_Blockers: unresolved issues or evidence gaps blocking completion.
+- Constraints: safety, instruction, or repository constraints that should guide the next action.
+- Likely_Next_Needs: near-term needs the next action should satisfy.
+- Failure_Modes_To_Avoid: likely mistakes, risks, or counterproductive paths to avoid.
+
+2. Checklist
+
+After the summary, output a <checklist>...</checklist> section generated from the current trajectory, candidate action, and summary.
+
+Checklist requirements:
+- Include a brief REASONING line explaining why the checklist covers the key decision criteria derived from the summary.
+- The checklist should help judge whether the candidate action can make correct, safe, minimal progress from the current trajectory toward solving the task.
+- Each checklist item should be an observable criterion for the next action, such as confirming the right evidence, editing the right file, running the right validation, respecting safety constraints, or avoiding likely failure modes.
+- Use weights must, should, or nice to reflect how important each criterion is for judging the next action.
+
+3. Candidate evaluation
+
+For the candidate, output the predicted next state, then checklist item scores, then candidate reasoning, then the overall score.
+
+Prediction field definitions:
+- Immediate_Observation: predict the direct immediate result of executing the candidate action. Write this as an outcome, not as a reference to evidence sources; do not say "based on the provided evidence" or similar.
+- Expected_Progress: how the predicted outcome changes the task state, including whether the candidate advances, stalls, or risks the task.
+
+Candidate evaluation rules:
+- Checklist item scores should consider the candidate's predicted next state and how well that predicted outcome satisfies the generated checklist.
+- Candidate reasoning and the overall score should incorporate the predicted immediate observation, expected progress, and checklist evaluation when helpful, while preserving concise candidate-local reasoning and scoring.
+- In the final candidate reasoning, do not mention checklist item numbers such as "Item 1" or "Item 2"; describe the criterion directly instead.
+- In <checklist_scores>, every "- Item N:" score line must be immediately followed by an indented "REASONING:" line for that same item. Do not write one shared checklist-level REASONING line after multiple item scores.
+- Score every checklist item from 0.0 to 1.0.
+- Assign the overall SCORE using the score calibration in the system instructions.
+- Render all scores with two decimal places.
+- Generate exactly one candidate assessment. Do not output a candidate index, comparison of alternatives, or FINAL selection.
+- Use the following ordinary text tags in this exact order, with no text after the terminal SCORE line.
+
+Output format:
+
+<summary>
+Task_State: ...
+Completed_Progress: ...
+Open_Blockers: ...
+Constraints: ...
+Likely_Next_Needs: ...
+Failure_Modes_To_Avoid: ...
+</summary>
+<checklist>
+REASONING: <brief explanation of why these criteria matter>
+1. <atomic criterion> [weight: must|should|nice]
+... repeat for every checklist item ...
+</checklist>
+<prediction>
+Immediate_Observation: ...
+Expected_Progress: ...
+</prediction>
+<checklist_scores>
+- Item 1: <score from 0.00 to 1.00>
+  REASONING: <short reason specific to checklist item 1>
+... repeat for every checklist item ...
+</checklist_scores>
+<reasoning>
+<candidate-local reasoning incorporating the prediction and checklist evaluation>
+</reasoning>
+SCORE: <overall score from 0.00 to 1.00>

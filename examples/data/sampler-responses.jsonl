@@ -1,0 +1,4 @@
+{"role": "assistant", "content": "```bash\nprintf one\n```"}
+{"role": "assistant", "content": "```bash\nprintf two\n```"}
+{"role": "assistant", "content": "```bash\nprintf three\n```"}
+{"role": "assistant", "content": "```bash\ncat README.txt\n```"}

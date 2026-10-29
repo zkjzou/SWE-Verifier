@@ -1,0 +1,26 @@
+# Replace identities and revisions with the artifacts used for your construction run.
+# Credentials belong in environment variables. These are service configuration examples.
+samplers:
+  - model_name: openai/your-policy-model
+    model_class: litellm_textbased
+    model_kwargs:
+      api_base: http://localhost:8000/v1
+      temperature: 1.0
+      max_tokens: 2048
+    samples: 4
+    provenance:
+      model: your-policy-model
+      revision: replace-with-recorded-revision
+      prompt_id: replace-with-policy-prompt-hash
+      source_commit: replace-with-source-git-sha
+teacher:
+  model_name: your-provider/your-teacher-model
+  model_kwargs:
+    temperature: 0.0
+    max_tokens: 8192
+  retries: 3
+  provenance:
+    model: your-teacher-model
+    revision: replace-with-recorded-provider-version
+    prompt_id: teacher/annotate.jinja
+    source_commit: replace-with-source-git-sha

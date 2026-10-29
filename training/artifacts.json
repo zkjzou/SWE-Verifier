@@ -1,0 +1,133 @@
+{
+  "dataset_repo_id": "zkjzou/swe-verifier-training",
+  "dataset_revision": "867f17b0004494b32b68d8bb03640073fdd4308e",
+  "visibility": "private",
+  "license": "apache-2.0",
+  "configurations": {
+    "joint_rubric": {
+      "artifacts": {
+        "train.jsonl": {
+          "file": "joint_rubric/train.jsonl.gz",
+          "gzip_bytes": 362457216,
+          "gzip_sha256": "dcc12891b6655403d50e8f77b92196b4acd89e24b6883a7d3b6de731a9926853",
+          "original_bytes": 1892087940,
+          "original_sha256": "ccb007ff9d294e2562dfdd06b64d427b1d78108376e39e3f7235bd65e81050be",
+          "rows": 30403
+        },
+        "train_manifest.jsonl": {
+          "file": "joint_rubric/train_manifest.jsonl.gz",
+          "gzip_bytes": 6329540,
+          "gzip_sha256": "e59175385febe9b3be23e3e28f0b1ab2a31a8ebc799b751c2d488e1be94ffc11",
+          "original_bytes": 54534739,
+          "original_sha256": "3a223a724d98d17563ea29976cebb053ddf9ea95d2c006ea934109b81ea20052",
+          "rows": 30403
+        }
+      },
+      "rows": 30403,
+      "slates": 6096,
+      "source_contract_sha256": "60ef0ceeb706c3230c346d0b825cbefb30db547a09cb979783ab84be151fc792",
+      "source_counts": {
+        "gpt": 30403
+      },
+      "trajectories": 485,
+      "truncated_rows": 350,
+      "unique_actions": 30403
+    },
+    "score_only": {
+      "artifacts": {
+        "train.jsonl": {
+          "file": "score_only/train.jsonl.gz",
+          "gzip_bytes": 309528544,
+          "gzip_sha256": "7553496a031278decc251b94f63040d3166a47c096a506d995e8c331525ee89c",
+          "original_bytes": 1765169755,
+          "original_sha256": "9cb9ada8f81ed7642ec4de6a53e454f5ff5f99af20042d3c4aa2de34f0fd7873",
+          "rows": 30494
+        },
+        "train_manifest.jsonl": {
+          "file": "score_only/train_manifest.jsonl.gz",
+          "gzip_bytes": 1315033,
+          "gzip_sha256": "78a975472309967f19a4a58dd4e33ba2cb30daac254822d1641c887dc20f9526",
+          "original_bytes": 27614479,
+          "original_sha256": "7684403e8a77d59b104de82d107b0b8f2a547c9dad1b16fb2297d73ea4ab8bf7",
+          "rows": 30494
+        }
+      },
+      "rows": 30494,
+      "slates": 6114,
+      "source_contract_sha256": "3ddf11212be739d99131836f3aadc15b8615569aee3255cb6a29ec6e4a6a8313",
+      "source_counts": {
+        "gpt": 30494
+      },
+      "trajectories": 485,
+      "truncated_rows": 342,
+      "unique_actions": 30494
+    },
+    "two_stage_generator": {
+      "artifacts": {
+        "train.jsonl": {
+          "file": "two_stage_generator/train.jsonl.gz",
+          "gzip_bytes": 311205565,
+          "gzip_sha256": "2da999dca922adbdf575f6671acf370f196ebfc35cec681273bccedff6238b81",
+          "original_bytes": 1739622176,
+          "original_sha256": "50cba8749fc215031960e0df400271ed91915d1bc1e1760c3d7fd8ec02b95292",
+          "rows": 30403
+        },
+        "train_manifest.jsonl": {
+          "file": "two_stage_generator/train_manifest.jsonl.gz",
+          "gzip_bytes": 7688875,
+          "gzip_sha256": "7df43feb6240b7dce52c7f6b7b679539b72732454cef74187f81d49967a9b18f",
+          "original_bytes": 60702809,
+          "original_sha256": "f11b6f469040bf6722737463b09fa0333981cb470271b8c0274983a862993f9a",
+          "rows": 30403
+        }
+      },
+      "rows": 30403,
+      "slates": 6096,
+      "source_contract_sha256": "6fd3918bb1a7011cb54ffa31b0e7455ebc28ed3ebfe25e0e76e6e5e24716a624",
+      "source_counts": {
+        "gpt": 30403
+      },
+      "trajectories": 485,
+      "truncated_rows": 341,
+      "unique_actions": 30403
+    },
+    "two_stage_scorer": {
+      "artifacts": {
+        "train.jsonl": {
+          "file": "two_stage_scorer/train.jsonl.gz",
+          "gzip_bytes": 333727127,
+          "gzip_sha256": "3cbc32a345b7faeef05b181c44371b27d6f7bcd60e79262f90e7a3859e925c0f",
+          "original_bytes": 1800469594,
+          "original_sha256": "4c2e7d257254fa2ea1cce7b91975fb716cf0a84c5f61af606a51cdfbf35e810d",
+          "rows": 30403
+        },
+        "train_manifest.jsonl": {
+          "file": "two_stage_scorer/train_manifest.jsonl.gz",
+          "gzip_bytes": 6326111,
+          "gzip_sha256": "3bbddff3c1a1021a1fe7edca92bf5d8312db2415dd05d515ba345c2db93b7c4f",
+          "original_bytes": 54593878,
+          "original_sha256": "315f4a67139b3d1c506b1a9bc62fe94cbaf45e0519ea6e0a21191c81021d9aff",
+          "rows": 30403
+        }
+      },
+      "rows": 30403,
+      "slates": 6096,
+      "source_contract_sha256": "60ef0ceeb706c3230c346d0b825cbefb30db547a09cb979783ab84be151fc792",
+      "source_counts": {
+        "gpt": 30403
+      },
+      "trajectories": 485,
+      "truncated_rows": 344,
+      "unique_actions": 30403
+    }
+  },
+  "two_stage_initialization": "S-5703 scorer checkpoint, then MA-7968 shared training",
+  "historical_configuration_files": {
+    "score_only": "provenance/01-recipe.json",
+    "joint_rubric": "provenance/06-J.json",
+    "scorer_initialization": "provenance/07-S.json",
+    "two_stage_shared": "provenance/08-MA.json"
+  },
+  "training_entrypoint": "training/launch.sh",
+  "hardware": "single node, four H200 GPUs"
+}

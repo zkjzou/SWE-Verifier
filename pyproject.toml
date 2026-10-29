@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swe-verifier"
+version = "0.1.0.dev0"
+description = "Selective verification recipes for Mini-swe-agent"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "SWE-Verifier authors"}]
+dependencies = [
+  "mini-swe-agent==2.4.6",
+  "Jinja2==3.1.6",
+  "PyYAML==6.0.3",
+  "pydantic==2.14.1",
+  "litellm[mcp]==1.106.6",
+  "requests==2.34.2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.0.2", "build==1.3.0", "ruff==0.14.3"]
+hub = ["huggingface-hub==1.33.0"]
+native = ["transformers==5.0.0"]
+
+[project.urls]
+Repository = "https://github.com/zkjzou/SWE-Verifier"
+Paper = "https://arxiv.org/abs/2610.30284"
+
+[project.scripts]
+swe-verifier = "swe_verifier.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+swe_verifier = ["py.typed", "prompts/**/*.jinja", "prompts/**/*.json", "prompts/**/*.txt", "recipes/*.yaml", "recipes/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

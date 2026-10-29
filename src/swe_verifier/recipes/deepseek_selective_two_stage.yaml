@@ -1,0 +1,52 @@
+name: deepseek_selective_two_stage
+description: deepseek selective two stage recipe; extracted settings with explicit
+  release adaptations
+strategy: selective
+variant: two_stage
+selector_role: verifier
+threshold: 0.2
+candidate_count: 3
+scoring_draws: 3
+format_retries: 1
+failure_policy: raise
+step_limit: 250
+max_calls: 10000
+cost_limit_usd: null
+policy_cost_limit_usd: 3.0
+wall_time_limit_seconds: 0
+rollout_count: 3
+trajectory_repetitions: 4
+policy:
+  name: openai/deepseek-ai/DeepSeek-V4-Flash
+  revision: null
+  backend: litellm
+  kwargs:
+    extra_body:
+      thinking:
+        type: enabled
+      chat_template_kwargs:
+        thinking: true
+        reasoning_effort: high
+    reasoning_effort: high
+    temperature: 1.0
+    top_p: 1.0
+    parallel_tool_calls: false
+  retries: 2
+  timeout_seconds: 1800.0
+verifier:
+  name: zkjzou/SWE-Verifier-Two-Stage-Rubric
+  revision: 62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b
+  backend: native
+  kwargs:
+    temperature: 1.0
+    top_p: 0.95
+    top_k: 20
+    min_p: 0.0
+    presence_penalty: 1.5
+    repetition_penalty: 1.0
+    max_tokens: 2048
+    context_limit: 262144
+  retries: 2
+  timeout_seconds: 1800.0
+provenance_status: settings_extracted; runtime_parity_pending; explicit_native_output_cap_2048;
+  strict_format_failures

@@ -1,0 +1,39 @@
+<summary>Synthetic fixture task.</summary>
+<checklist>1. Inspect repository [weight: must]</checklist>
+- Candidate 1:
+  NEXT_STATES_PREDICTION:
+    Immediate_Observation: Synthetic fixture output.
+    Expected_Progress: Inspects the fixture state.
+  CHECKLIST_ITEM_SCORES:
+  - Item 1: 0.8
+    REASONING: It provides a bounded observation.
+  REASONING: This fixture action is valid.
+  SCORE: 0.8
+- Candidate 2:
+  NEXT_STATES_PREDICTION:
+    Immediate_Observation: Synthetic fixture output.
+    Expected_Progress: Inspects the fixture state.
+  CHECKLIST_ITEM_SCORES:
+  - Item 1: 0.8
+    REASONING: It provides a bounded observation.
+  REASONING: This fixture action is valid.
+  SCORE: 0.8
+- Candidate 3:
+  NEXT_STATES_PREDICTION:
+    Immediate_Observation: Synthetic fixture output.
+    Expected_Progress: Inspects the fixture state.
+  CHECKLIST_ITEM_SCORES:
+  - Item 1: 0.8
+    REASONING: It provides a bounded observation.
+  REASONING: This fixture action is valid.
+  SCORE: 0.8
+- Candidate 4:
+  NEXT_STATES_PREDICTION:
+    Immediate_Observation: Synthetic fixture output.
+    Expected_Progress: Inspects the fixture state.
+  CHECKLIST_ITEM_SCORES:
+  - Item 1: 0.8
+    REASONING: It provides a bounded observation.
+  REASONING: This fixture action is valid.
+  SCORE: 0.8
+FINAL: 1

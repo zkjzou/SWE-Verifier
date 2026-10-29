@@ -1,0 +1,12 @@
+include LICENSE CITATION.cff release-manifest.json constraints.txt
+recursive-include docs *.md *.json *.png
+recursive-include training *.md *.json *.py *.sh *.txt
+recursive-include examples *.py *.jsonl *.yaml *.txt
+recursive-include src/swe_verifier/prompts *.txt *.jinja *.json
+recursive-include src/swe_verifier/recipes *.yaml
+recursive-include tests *.py *.json
+prune training/.venv
+prune training/data
+prune training/outputs
+prune training/smoke-data
+prune training/smoke-runs

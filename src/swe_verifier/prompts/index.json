@@ -1,0 +1,733 @@
+{
+  "schema_version": 1,
+  "prompts": [
+    {
+      "name": "untrained/system.txt",
+      "sha256": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+      "source": "source-record:6919b01960f012f6:django__django-13279",
+      "source_sha256": "809e33b2017fc535bdf1f87b94245e435ed48a781ebd317c14230537a0297f3d",
+      "extraction": "info.config.agent.verifier.reward_system_template",
+      "purpose": "Base-model action scoring",
+      "output_contract": "Prompt requests SCORE in [0,1]; runtime uses research labeled scalar parser and averages available draws",
+      "recipes": [
+        "all_step_base",
+        "deepseek_all_step_base",
+        "deepseek_selective_untrained",
+        "selective_untrained"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "system",
+        "completed observed history only; no initial task or unexecuted candidate turns",
+        "final user request includes task and candidate display text"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "untrained/scoring.jinja",
+      "sha256": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+      "source": "source-record:6919b01960f012f6:django__django-13279",
+      "source_sha256": "809e33b2017fc535bdf1f87b94245e435ed48a781ebd317c14230537a0297f3d",
+      "extraction": "info.config.agent.verifier.reward_prompt_template",
+      "purpose": "Base-model action scoring",
+      "output_contract": "Prompt requests SCORE in [0,1]; runtime uses research labeled scalar parser and averages available draws",
+      "recipes": [
+        "all_step_base",
+        "deepseek_all_step_base",
+        "deepseek_selective_untrained",
+        "selective_untrained"
+      ],
+      "input_variables": [
+        "all_steps",
+        "candidate",
+        "history_message_format",
+        "history_steps",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "message_context": [
+        "system",
+        "completed observed history only; no initial task or unexecuted candidate turns",
+        "final user request includes task and candidate display text"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "score_only/system.txt",
+      "sha256": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+      "source": "source-record:31651a73509f38e9:django__django-13279",
+      "source_sha256": "7b33e17ccffb14d91038e9ecfdfa913be5806e8ac16c40d7b9fa93de25735e39",
+      "extraction": "info.config.agent.verifier.reward_system_template",
+      "purpose": "Trained scalar action scoring",
+      "output_contract": "Prompt requests SCORE in [0,1]; runtime uses research labeled scalar parser and averages available draws",
+      "recipes": [
+        "deepseek_gate_only",
+        "deepseek_selective_score_only",
+        "gate_only",
+        "selective_score_only"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "system",
+        "completed observed history only; no initial task or unexecuted candidate turns",
+        "final user request includes task and candidate display text"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "score_only/scoring.jinja",
+      "sha256": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+      "source": "source-record:31651a73509f38e9:django__django-13279",
+      "source_sha256": "7b33e17ccffb14d91038e9ecfdfa913be5806e8ac16c40d7b9fa93de25735e39",
+      "extraction": "info.config.agent.verifier.reward_prompt_template",
+      "purpose": "Trained scalar action scoring",
+      "output_contract": "Prompt requests SCORE in [0,1]; runtime uses research labeled scalar parser and averages available draws",
+      "recipes": [
+        "deepseek_gate_only",
+        "deepseek_selective_score_only",
+        "gate_only",
+        "selective_score_only"
+      ],
+      "input_variables": [
+        "all_steps",
+        "candidate",
+        "history_message_format",
+        "history_steps",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "message_context": [
+        "system",
+        "completed observed history only; no initial task or unexecuted candidate turns",
+        "final user request includes task and candidate display text"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "joint_rubric/system.txt",
+      "sha256": "edd9b093171e2d4a7c0699e52edcaa64222ce1a0a3b68790861acddfe6a8a45c",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Joint-Rubric/blob/a6d09a1c97b48bb00912c65e49ec6af5a1b63fd7/prompts/system.txt",
+      "source_sha256": "edd9b093171e2d4a7c0699e52edcaa64222ce1a0a3b68790861acddfe6a8a45c",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Joint rubric and action scoring",
+      "output_contract": "Rubric output with terminal finite SCORE in [0,1]",
+      "recipes": [
+        "deepseek_selective_joint_rubric",
+        "selective_joint_rubric"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "joint_rubric/scoring.txt",
+      "sha256": "4065f0775a1175fac4607a0175f5a73ef46b0d0dab07c8fe60a6464f2b56311f",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Joint-Rubric/blob/a6d09a1c97b48bb00912c65e49ec6af5a1b63fd7/prompts/scoring.txt",
+      "source_sha256": "4065f0775a1175fac4607a0175f5a73ef46b0d0dab07c8fe60a6464f2b56311f",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Joint rubric and action scoring",
+      "output_contract": "Rubric output with terminal finite SCORE in [0,1]",
+      "recipes": [
+        "deepseek_selective_joint_rubric",
+        "selective_joint_rubric"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "joint_rubric/retry.txt",
+      "sha256": "fed37ac28da6989e6dc7416bdf23d8081dd07babba3cad2e384cd84d637123a3",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Joint-Rubric/blob/a6d09a1c97b48bb00912c65e49ec6af5a1b63fd7/prompts/retry.txt",
+      "source_sha256": "fed37ac28da6989e6dc7416bdf23d8081dd07babba3cad2e384cd84d637123a3",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Joint rubric and action scoring",
+      "output_contract": "Rubric output with terminal finite SCORE in [0,1]",
+      "recipes": [
+        "deepseek_selective_joint_rubric",
+        "selective_joint_rubric"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "two_stage/generator_system.txt",
+      "sha256": "2286235bbf36dea2a1cbbadcc13a91f7c9526261caea1140002bb30373e161e7",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Two-Stage-Rubric/blob/62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b/prompts/verifier/qwen35_action_checklist_generation_v1/system.txt",
+      "source_sha256": "2286235bbf36dea2a1cbbadcc13a91f7c9526261caea1140002bb30373e161e7",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Per-action rubric generation followed by scoring",
+      "output_contract": "checklist_contract generator/scorer structured parsers",
+      "recipes": [
+        "deepseek_selective_two_stage",
+        "selective_two_stage"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "two_stage/generator.txt",
+      "sha256": "29e8148333673fcd7616b32dc094539cb3e7d76c0a14b193be2cf8b1bda61bf4",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Two-Stage-Rubric/blob/62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b/prompts/verifier/qwen35_action_checklist_generation_v1/request.txt",
+      "source_sha256": "29e8148333673fcd7616b32dc094539cb3e7d76c0a14b193be2cf8b1bda61bf4",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Per-action rubric generation followed by scoring",
+      "output_contract": "checklist_contract generator/scorer structured parsers",
+      "recipes": [
+        "deepseek_selective_two_stage",
+        "selective_two_stage"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "two_stage/scorer_system.txt",
+      "sha256": "b55d7b93a0cb1e16696fbc5caaa7c7587865fa2e58bf73433b64bf38aabaaba9",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Two-Stage-Rubric/blob/62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b/prompts/verifier/qwen35_checklist_scoring_v1/system.txt",
+      "source_sha256": "b55d7b93a0cb1e16696fbc5caaa7c7587865fa2e58bf73433b64bf38aabaaba9",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Per-action rubric generation followed by scoring",
+      "output_contract": "checklist_contract generator/scorer structured parsers",
+      "recipes": [
+        "deepseek_selective_two_stage",
+        "selective_two_stage"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "two_stage/scorer.jinja",
+      "sha256": "62a6d2068f4578bc424f5449f78983fd75a4ca4fe63e4bfa51367b69c5ce8212",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Two-Stage-Rubric/blob/62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b/prompts/verifier/qwen35_checklist_scoring_v1/request.jinja",
+      "source_sha256": "62a6d2068f4578bc424f5449f78983fd75a4ca4fe63e4bfa51367b69c5ce8212",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Per-action rubric generation followed by scoring",
+      "output_contract": "checklist_contract generator/scorer structured parsers",
+      "recipes": [
+        "deepseek_selective_two_stage",
+        "selective_two_stage"
+      ],
+      "input_variables": [
+        "checklist_text"
+      ],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "two_stage/generator_retry.txt",
+      "sha256": "b57c6fc29c9900e1653debe9918635df3f8066fe97219e936301ffd5f793e983",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Two-Stage-Rubric/blob/62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b/prompts/verifier/qwen35_checklist_modes_v1/generator_retry.txt",
+      "source_sha256": "b57c6fc29c9900e1653debe9918635df3f8066fe97219e936301ffd5f793e983",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Per-action rubric generation followed by scoring",
+      "output_contract": "checklist_contract generator/scorer structured parsers",
+      "recipes": [
+        "deepseek_selective_two_stage",
+        "selective_two_stage"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "two_stage/scorer_retry.txt",
+      "sha256": "9e9a54d47c5fd1aa33c15b3073bf31c047f39fba82711246bf4849c864947dd5",
+      "source": "https://huggingface.co/zkjzou/SWE-Verifier-Two-Stage-Rubric/blob/62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b/prompts/verifier/qwen35_checklist_modes_v1/scorer_retry.txt",
+      "source_sha256": "9e9a54d47c5fd1aa33c15b3073bf31c047f39fba82711246bf4849c864947dd5",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Per-action rubric generation followed by scoring",
+      "output_contract": "checklist_contract generator/scorer structured parsers",
+      "recipes": [
+        "deepseek_selective_two_stage",
+        "selective_two_stage"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "task",
+        "completed observed history",
+        "one unexecuted proposed action"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "selection/system.txt",
+      "sha256": "7e089365b230469dd466b430dd28db8bc5289332dda126f613d61102e1bc67fa",
+      "source": "source-record:bae19bc99b617939",
+      "source_sha256": "db8c390924fad5c14e6a6f1d5ee9357c084f95b273926539a20a52274b0d8f8c",
+      "extraction": "config.agent.verifier.reward_resample_selector.system_template",
+      "purpose": "Policy-model candidate-slate selection",
+      "output_contract": "Candidate SCORE blocks and one-based FINAL index",
+      "recipes": [
+        "all_step_self",
+        "deepseek_all_step_self",
+        "deepseek_gate_only",
+        "gate_only"
+      ],
+      "input_variables": [],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "selection/scoring.jinja",
+      "sha256": "437bba4e479a28d3cfd87caaabf5d166628503720c32c7b02ee61f9f4944ec01",
+      "source": "source-record:bae19bc99b617939",
+      "source_sha256": "db8c390924fad5c14e6a6f1d5ee9357c084f95b273926539a20a52274b0d8f8c",
+      "extraction": "config.agent.verifier.reward_resample_selector.selection_template",
+      "purpose": "Policy-model candidate-slate selection",
+      "output_contract": "Candidate SCORE blocks and one-based FINAL index",
+      "recipes": [
+        "all_step_self",
+        "deepseek_all_step_self",
+        "deepseek_gate_only",
+        "gate_only"
+      ],
+      "input_variables": [
+        "all_steps",
+        "candidates",
+        "history_message_format",
+        "history_steps",
+        "selection_index_base",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "teacher/system.txt",
+      "sha256": "6ce655a5c6118b4ad2cc643c045a151544f0c3d10a5921fd7bad36b52f69637b",
+      "source": "mini-swe-agent/.worktrees/verifier-training/prompts/verifier/teacher_v2_ultimate_blind_gpt56_sol_64k_v1/verifier/selection.jinja",
+      "source_sha256": "2f94622b46bc80333725a46a50a392c516da0aba2a6be1db041da2709ad23622",
+      "extraction": "SYSTEM_TEMPLATE section from final sol_64k_v1 teacher; strip outer whitespace and omit cache-boundary sentinel while preserving following content",
+      "purpose": "Execution-aware teacher annotation",
+      "output_contract": "summary/checklist and candidate-local prediction/reason/score blocks; FINAL index",
+      "recipes": [
+        "data_label"
+      ],
+      "input_variables": [],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "teacher/annotate.jinja",
+      "sha256": "9207d34eb3de5915ed97fefd4c3f62b4257bbcececcc278b1ee0742be4adbfd0",
+      "source": "mini-swe-agent/.worktrees/verifier-training/prompts/verifier/teacher_v2_ultimate_blind_gpt56_sol_64k_v1/verifier/selection.jinja",
+      "source_sha256": "2f94622b46bc80333725a46a50a392c516da0aba2a6be1db041da2709ad23622",
+      "extraction": "SELECTION_TEMPLATE section from final sol_64k_v1 teacher; strip outer whitespace and omit cache-boundary sentinel while preserving following content",
+      "purpose": "Execution-aware teacher annotation",
+      "output_contract": "summary/checklist and candidate-local prediction/reason/score blocks; FINAL index",
+      "recipes": [
+        "data_label"
+      ],
+      "input_variables": [
+        "all_steps",
+        "candidates",
+        "future_horizon",
+        "history_message_format",
+        "history_steps",
+        "selection_index_base",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "analysis/action_classifier.jinja",
+      "sha256": "af6d4238c17a767151d03c7d651929ff1ecce6dd4e76d2ad726299224e680d60",
+      "source": "mini-swe-agent/prompts/verifier_gate/basic/prompt.jinja",
+      "source_sha256": "af6d4238c17a767151d03c7d651929ff1ecce6dd4e76d2ad726299224e680d60",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Paper action-category and problem-phase analysis",
+      "output_contract": "JSON action_category/problem_phase/should_run_verifier labels",
+      "recipes": [
+        "paper_analysis"
+      ],
+      "input_variables": [
+        "action_categories",
+        "all_steps",
+        "candidate",
+        "candidate_parse_error",
+        "history_message_format",
+        "history_steps",
+        "problem_phases",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "analysis/action_classifier_system.txt",
+      "sha256": "0d21768043396628ffb7eb5323a88547c136a4f1b038b2120bed2278c54d164c",
+      "source": "mini-swe-agent/prompts/verifier_gate/basic/system.jinja",
+      "source_sha256": "0d21768043396628ffb7eb5323a88547c136a4f1b038b2120bed2278c54d164c",
+      "extraction": "byte-for-byte copy",
+      "purpose": "Paper action-category and problem-phase analysis",
+      "output_contract": "JSON action_category/problem_phase/should_run_verifier labels",
+      "recipes": [
+        "paper_analysis"
+      ],
+      "input_variables": [],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "paper/multi_action.jinja",
+      "sha256": "c4586193b02bc35e1d3de2504cb02d42c8506623aa0b56fbdae3ce273e2880b4",
+      "source": "SWE-Verifier-ARR/latex/appendix/appendix_verifier_prompts.tex",
+      "source_sha256": "2f2605835fe458b4282bc6deeeabd7c56f40ba8242cd7b54d0e326e106f08486",
+      "extraction": "PromptVerbatim block multi_action; verbatim contents",
+      "purpose": "Verbatim manuscript prompt archive",
+      "output_contract": "Archival; use named runtime template instead of implicit execution",
+      "recipes": [],
+      "input_variables": [
+        "all_steps",
+        "candidates",
+        "history_message_format",
+        "history_steps",
+        "selection_index_base",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "paper/single_action.jinja",
+      "sha256": "4a264972c35ff6eff902008cce231a614e6ad44aac8b6c5e8277074e3dd5e850",
+      "source": "SWE-Verifier-ARR/latex/appendix/appendix_verifier_prompts.tex",
+      "source_sha256": "2f2605835fe458b4282bc6deeeabd7c56f40ba8242cd7b54d0e326e106f08486",
+      "extraction": "PromptVerbatim block single_action; verbatim contents",
+      "purpose": "Verbatim manuscript prompt archive",
+      "output_contract": "Archival; use named runtime template instead of implicit execution",
+      "recipes": [],
+      "input_variables": [
+        "all_steps",
+        "candidates",
+        "history_message_format",
+        "history_steps",
+        "selection_index_base",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "paper/teacher_distillation.jinja",
+      "sha256": "85b113321b2cd5ff12b813fed9172095cafb823904c61c9a65ea6c0bf098f278",
+      "source": "SWE-Verifier-ARR/latex/appendix/appendix_verifier_prompts.tex",
+      "source_sha256": "2f2605835fe458b4282bc6deeeabd7c56f40ba8242cd7b54d0e326e106f08486",
+      "extraction": "PromptVerbatim block teacher_distillation; verbatim contents",
+      "purpose": "Verbatim manuscript prompt archive",
+      "output_contract": "Archival; use named runtime template instead of implicit execution",
+      "recipes": [],
+      "input_variables": [
+        "all_steps",
+        "candidates",
+        "future_horizon",
+        "history_message_format",
+        "history_steps",
+        "selection_index_base",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "paper/action_classifier.jinja",
+      "sha256": "5050ba90184abd9feee1dfee290b870c216768238cc348eed438b63842067315",
+      "source": "SWE-Verifier-ARR/latex/appendix/appendix_verifier_prompts.tex",
+      "source_sha256": "2f2605835fe458b4282bc6deeeabd7c56f40ba8242cd7b54d0e326e106f08486",
+      "extraction": "PromptVerbatim block action_classifier; verbatim contents",
+      "purpose": "Verbatim manuscript prompt archive",
+      "output_contract": "Archival; use named runtime template instead of implicit execution",
+      "recipes": [],
+      "input_variables": [
+        "action_categories",
+        "all_steps",
+        "candidate",
+        "candidate_parse_error",
+        "history_message_format",
+        "history_steps",
+        "problem_phases",
+        "steps",
+        "task",
+        "visible_steps"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "trajectory/pairwise.jinja",
+      "sha256": "28b19a3aaeceb01d036b2855e1847bb8769eadbc10dd118171e4a2f19e14da28",
+      "source": "llm-as-a-verifier/scripts/verifier_core.py",
+      "source_sha256": "42c474406466d70ad67b04f7f069971905dba1a0ee1dc10db474fbde3a15fb23",
+      "extraction": "create_prompt_for_criterion rendered with Jinja placeholders; scale preserved",
+      "purpose": "Criterion-specific trajectory pair scoring",
+      "output_contract": "score_A and score_B XML tags, A through T; optional logprob expectation",
+      "recipes": [
+        "deepseek_trajectory",
+        "trajectory"
+      ],
+      "input_variables": [
+        "criterion",
+        "ground_truth_note",
+        "problem",
+        "trace_a",
+        "trace_b"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "trajectory/criteria.json",
+      "sha256": "e029e0eec94ac630c2777bf05ff7bf5775f79046a5c651a74f20910df00b5134",
+      "source": "llm-as-a-verifier/scripts/run_swe_bench.py",
+      "source_sha256": "54058f503ed6188895e5f9f0fa8925ce8710ee6650ebc201ce5c5f8503aefb07",
+      "extraction": "literal CRITERIA and GROUND_TRUTH_NOTE constants",
+      "purpose": "Criterion-specific trajectory pair scoring",
+      "output_contract": "score_A and score_B XML tags, A through T; optional logprob expectation",
+      "recipes": [
+        "deepseek_trajectory",
+        "trajectory"
+      ],
+      "input_variables": [],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "policy/system.jinja",
+      "sha256": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+      "source": "source-record:31651a73509f38e9:django__django-13279",
+      "source_sha256": "7b33e17ccffb14d91038e9ecfdfa913be5806e8ac16c40d7b9fa93de25735e39",
+      "extraction": "info.config.agent.system_template",
+      "purpose": "Original coding-policy and environment messages",
+      "output_contract": "One executable bash tool call; submission detected by environment",
+      "recipes": [
+        "all_step_base",
+        "all_step_self",
+        "deepseek_all_step_base",
+        "deepseek_all_step_self",
+        "deepseek_gate_only",
+        "deepseek_none",
+        "deepseek_selective_joint_rubric",
+        "deepseek_selective_score_only",
+        "deepseek_selective_two_stage",
+        "deepseek_selective_untrained",
+        "deepseek_trajectory",
+        "gate_only",
+        "none",
+        "selective_joint_rubric",
+        "selective_score_only",
+        "selective_two_stage",
+        "selective_untrained",
+        "trajectory"
+      ],
+      "input_variables": [],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "policy/instance.jinja",
+      "sha256": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+      "source": "source-record:31651a73509f38e9:django__django-13279",
+      "source_sha256": "7b33e17ccffb14d91038e9ecfdfa913be5806e8ac16c40d7b9fa93de25735e39",
+      "extraction": "info.config.agent.instance_template",
+      "purpose": "Original coding-policy and environment messages",
+      "output_contract": "One executable bash tool call; submission detected by environment",
+      "recipes": [
+        "all_step_base",
+        "all_step_self",
+        "deepseek_all_step_base",
+        "deepseek_all_step_self",
+        "deepseek_gate_only",
+        "deepseek_none",
+        "deepseek_selective_joint_rubric",
+        "deepseek_selective_score_only",
+        "deepseek_selective_two_stage",
+        "deepseek_selective_untrained",
+        "deepseek_trajectory",
+        "gate_only",
+        "none",
+        "selective_joint_rubric",
+        "selective_score_only",
+        "selective_two_stage",
+        "selective_untrained",
+        "trajectory"
+      ],
+      "input_variables": [
+        "task"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "policy/observation.jinja",
+      "sha256": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+      "source": "source-record:31651a73509f38e9:django__django-13279",
+      "source_sha256": "7b33e17ccffb14d91038e9ecfdfa913be5806e8ac16c40d7b9fa93de25735e39",
+      "extraction": "info.config.model.observation_template",
+      "purpose": "Original coding-policy and environment messages",
+      "output_contract": "One executable bash tool call; submission detected by environment",
+      "recipes": [
+        "all_step_base",
+        "all_step_self",
+        "deepseek_all_step_base",
+        "deepseek_all_step_self",
+        "deepseek_gate_only",
+        "deepseek_none",
+        "deepseek_selective_joint_rubric",
+        "deepseek_selective_score_only",
+        "deepseek_selective_two_stage",
+        "deepseek_selective_untrained",
+        "deepseek_trajectory",
+        "gate_only",
+        "none",
+        "selective_joint_rubric",
+        "selective_score_only",
+        "selective_two_stage",
+        "selective_untrained",
+        "trajectory"
+      ],
+      "input_variables": [
+        "elided_chars",
+        "output"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "policy/format_error.jinja",
+      "sha256": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+      "source": "source-record:31651a73509f38e9:django__django-13279",
+      "source_sha256": "7b33e17ccffb14d91038e9ecfdfa913be5806e8ac16c40d7b9fa93de25735e39",
+      "extraction": "info.config.model.format_error_template",
+      "purpose": "Original coding-policy and environment messages",
+      "output_contract": "One executable bash tool call; submission detected by environment",
+      "recipes": [
+        "all_step_base",
+        "all_step_self",
+        "deepseek_all_step_base",
+        "deepseek_all_step_self",
+        "deepseek_gate_only",
+        "deepseek_none",
+        "deepseek_selective_joint_rubric",
+        "deepseek_selective_score_only",
+        "deepseek_selective_two_stage",
+        "deepseek_selective_untrained",
+        "deepseek_trajectory",
+        "gate_only",
+        "none",
+        "selective_joint_rubric",
+        "selective_score_only",
+        "selective_two_stage",
+        "selective_untrained",
+        "trajectory"
+      ],
+      "input_variables": [
+        "error"
+      ],
+      "paper_status": "source-derived; exact extraction rule recorded"
+    },
+    {
+      "name": "untrained/retry.txt",
+      "sha256": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404",
+      "source": "release adaptation",
+      "source_sha256": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404",
+      "extraction": "New optional format-retry prompt. Historical scalar recipes used zero format retries; not a paper prompt.",
+      "purpose": "Base-model action scoring",
+      "output_contract": "Prompt requests SCORE in [0,1]; runtime uses research labeled scalar parser and averages available draws",
+      "recipes": [
+        "all_step_base",
+        "deepseek_all_step_base",
+        "deepseek_selective_untrained",
+        "selective_untrained"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "system",
+        "completed observed history only; no initial task or unexecuted candidate turns",
+        "final user request includes task and candidate display text"
+      ],
+      "paper_status": "not part of original paper inference"
+    },
+    {
+      "name": "score_only/retry.txt",
+      "sha256": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404",
+      "source": "release adaptation",
+      "source_sha256": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404",
+      "extraction": "New optional format-retry prompt. Historical scalar recipes used zero format retries; not a paper prompt.",
+      "purpose": "Trained scalar action scoring",
+      "output_contract": "Prompt requests SCORE in [0,1]; runtime uses research labeled scalar parser and averages available draws",
+      "recipes": [
+        "deepseek_gate_only",
+        "deepseek_selective_score_only",
+        "gate_only",
+        "selective_score_only"
+      ],
+      "input_variables": [],
+      "message_context": [
+        "system",
+        "completed observed history only; no initial task or unexecuted candidate turns",
+        "final user request includes task and candidate display text"
+      ],
+      "paper_status": "not part of original paper inference"
+    },
+    {
+      "name": "selection/retry.txt",
+      "sha256": "c10ce08af95d728c76a5482666a58a5209a012061081eda7f9e01a72cc1f096e",
+      "source": "mini-swe-agent/src/minisweagent/verifiers/llm.py@fa12602ab5eae519bd92384f118c91c785641ce9",
+      "source_sha256": "fb80f89167725ecf721ab3b577c5801515ee165e09a1d45fc4063025762d4848",
+      "extraction": "LLMVerifier._build_malformed_output_retry_messages user content",
+      "purpose": "Retry an invalid policy-model candidate selection response.",
+      "output_contract": "One terminal FINAL: <displayed candidate index> within the available candidate set.",
+      "recipes": [
+        "all_step_self",
+        "deepseek_all_step_self",
+        "deepseek_gate_only",
+        "gate_only"
+      ],
+      "input_variables": [
+        "first_index",
+        "last_index"
+      ],
+      "paper_status": "release_adaptation_not_used_in_recovered_paper_runs",
+      "message_context": [
+        "original selection request",
+        "invalid assistant response"
+      ]
+    }
+  ]
+}

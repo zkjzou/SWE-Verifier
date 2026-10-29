@@ -1,0 +1,22 @@
+Use the preceding conversation as the task and observed trajectory. The immediately preceding assistant message contains the single proposed next action, not a completed history step. Generate a checklist for assessing whether that action is suitable to execute from the current task state.
+
+The proposed action has not been executed in the supplied history. Do not assume an immediate observation or treat a likely outcome as an observed fact.
+
+Checklist requirements:
+- Include a brief REASONING line explaining why the checklist covers the key decision criteria derived from the task, observed trajectory, and proposed action.
+- The checklist should help judge whether the proposed action can make correct, safe, minimal progress toward solving the task.
+- Each checklist item should be an observable criterion for assessing the action, such as checking a prerequisite, obtaining missing evidence, choosing an appropriate edit or validation, respecting safety constraints, or avoiding a likely failure mode.
+- Use the candidate's details to make relevant checks concrete, while retaining requirements that could reveal that the action is inappropriate, redundant, insufficient, or unsafe. Merely matching the candidate's own command or approach is not a success criterion.
+- Use weights must, should, or nice to reflect how important each criterion is for judging the action.
+- Number the items consecutively starting at 1.
+- Generate a nonempty checklist; there is no fixed required number of items.
+- Do not output a summary, candidate assessment, prediction, checklist-item scores, or overall SCORE.
+- End immediately after </checklist>.
+
+Output format:
+
+<checklist>
+REASONING: <brief explanation of why these criteria matter>
+1. <atomic criterion> [weight: must|should|nice]
+... repeat for every checklist item ...
+</checklist>

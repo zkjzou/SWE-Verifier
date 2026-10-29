@@ -1,0 +1,34 @@
+You are an expert evaluator of AI coding agents. You will see a task description and two agent trajectories. Your job is to evaluate them on ONE specific criterion: **{{ criterion.name }}**.
+
+{{ ground_truth_note }}
+
+**Task:**
+{{ problem }}
+
+**Trajectory A:**
+{{ trace_a }}
+
+**Trajectory B:**
+{{ trace_b }}
+
+**Evaluation Guideline — {{ criterion.name }}:**
+{{ criterion.description }}
+
+Score each trajectory ONLY on this specific criterion. Ignore other aspects of the trajectory that are not relevant to "{{ criterion.name }}".
+
+**Rating Scale:**
+Rate how likely the agent correctly solved the task on a 20-point scale using letters A through T:
+  A = clearly and completely succeeded with verified output (best)
+  B-D = succeeded with only minor issues
+  E-G = above average, mostly correct with some issues
+  H-J = uncertain, leans toward success
+  K-M = uncertain, leans toward failure
+  N-P = below average, significant issues remain
+  Q-S = failed with some partial progress
+  T = clearly and completely failed (worst)
+
+Then output your final scores:
+<score_A>LETTER_A_TO_T</score_A>
+<score_B>LETTER_A_TO_T</score_B>
+
+Begin your analysis now.

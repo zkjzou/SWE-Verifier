@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "source_file": "src/minisweagent/utils/qwen35_sampling_v2.py",
+      "source_sha256": "4ab0b43d9b2fe0a57a9b9f705f03565e3f430ea9dbf4b39b8207b858374900db",
+      "extracted_functions": [
+        "_require",
+        "_approximate_bucket",
+        "epoch_aware_length_indices"
+      ],
+      "destination": "sampling.py"
+    },
+    {
+      "source_file": "src/minisweagent/utils/qwen35_messages.py",
+      "source_sha256": "3cc2ca45b1b4408bbf8511f2e3284ebd0be676ab5bbf28c07cda08dfbffc4417",
+      "extracted_functions": [
+        "_require",
+        "normalize_qwen35_chat_messages"
+      ],
+      "destination": "messages.py"
+    },
+    {
+      "source_file": "src/minisweagent/utils/qwen35_checklist_modes_training.py",
+      "source_sha256": "d09ec085e8214b9ceb5c8e4b24d992e2f1b27df81a5ae1b63c8dbe72309dc33f",
+      "use": "Reference for portable training implementation"
+    },
+    {
+      "source_file": "src/minisweagent/utils/qwen35_full_teacher_training.py",
+      "source_sha256": "1978fcc7659c1ab2decb35225c84826daa009461f35157a4df1a0601f8a31b76",
+      "use": "Reference for portable training implementation"
+    },
+    {
+      "source_file": "src/minisweagent/utils/qwen35_checklist_modes_data.py",
+      "source_sha256": "32ad0a204c81a593922e740e5ff30a3046ec5cd8a3f7b0f53bf858baab70ab86",
+      "use": "Reference for portable training implementation"
+    },
+    {
+      "source_file": "src/minisweagent/utils/extra/action_shared_training_v1.py",
+      "source_sha256": "d2d9649a3d6141a97e4d996ad932622ad25e31305c14e155bdbc79c8c15aa02a",
+      "use": "Reference for portable training implementation"
+    },
+    {
+      "source_file": "src/minisweagent/utils/qwen35_moe_data.py",
+      "source_sha256": "d4e59c5e5b770f3a4fc4b5a538ff157b71eab28912962fde2c77856616090796",
+      "use": "Reference for native Score Only target masking"
+    }
+  ],
+  "scope": "Portable extraction of objective, sampler, masking, precision, and checkpoint behavior; cluster orchestration omitted."
+}

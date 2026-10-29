@@ -1,0 +1,93 @@
+Task: {{ task }}
+
+{% if history_message_format == "single_prompt" %}
+Recent steps (history_steps={{ history_steps }}, latest last):
+{% if history_steps == -1 %}
+{% set visible_steps = all_steps %}
+{% else %}
+{% set visible_steps = steps %}
+{% endif %}
+{% for step in visible_steps %}
+{% for msg in step %}
+{{ msg.role }}: {{ msg.content }}
+{% endfor %}
+{% endfor %}
+{% else %}
+Use the preceding conversation as the rollout prefix.
+{% endif %}
+
+First sampled candidate:
+- content: {{ candidate.content }}
+- first_action: {{ candidate.action or "<none>" }}
+- action_count: {{ candidate.n_actions }}
+{% if candidate_parse_error %}
+- parse_error: {{ candidate_parse_error }}
+{% endif %}
+
+The goal is to classify the current candidate action and decide whether this state is worth verifier intervention.
+
+Field 1: action_category answers what kind of action the candidate performs.
+Allowed action_category values are only: {{ action_categories | join(", ") }}
+
+Definitions:
+- search: localization-oriented evidence gathering. Use this when the main purpose is to find the right file, symbol, failure mechanism, or relevant code path through read-only inspection, diagnostics, grep, or tests. Good search is targeted, relevant, and likely to narrow the next move.
+- plan: direction-setting strategy. Use this when the main purpose is to choose a concrete next approach, decomposition, or hypothesis-driven route without mutating the repository. Good planning constrains what should happen next rather than giving vague narration.
+- edit: solution-changing action. Use this when the main purpose is to change repository state toward a correct fix. Good edits touch the right code, avoid unrelated changes, and move toward a complete, testable solution.
+- context_aware: understanding-oriented context acquisition. Use this when the agent already has a likely place or direction, but needs additional surrounding context, issue semantics, adjacent modules, configuration behavior, or clarification to reason correctly.
+
+Never put problem_phase labels in action_category: {{ problem_phases | join(", ") }}.
+In particular, a validation command such as running tests still has action_category="search"; its problem_phase may be "validate".
+
+Distinguish search from context_aware carefully:
+- search: trying to locate the right place or root cause.
+- context_aware: already has a likely place or direction, but needs additional surrounding context to reason correctly.
+
+Do not label something as context_aware just because it is read-only. Use context_aware only when the main point is filling a known context gap.
+
+Field 2: problem_phase answers where the trajectory is in the solve.
+Allowed problem_phase values are only: {{ problem_phases | join(", ") }}
+
+Definitions:
+- planning: framing work before substantial diagnosis.
+- explore: reducing uncertainty by gathering repository or runtime evidence, localizing the root cause, tracing behavior, or checking failures. Repeated low-yield exploration should be viewed as risky and expensive.
+- fix: implementing or refining the solution by mutating code or tests. Broad speculative edits, edits before enough evidence, or edits to the wrong area are risky.
+- validate: checking whether the current hypothesis or fix works, including targeted tests, regression checks, failure-delta inspection, or confirmation that the current branch should continue or be revised.
+- closeout: asserting completion or wrapping up because the agent believes the issue is solved or no further work is needed. Premature closeout is risky when validation is weak.
+
+Never put action_category labels in problem_phase: {{ action_categories | join(", ") }}.
+
+Common label pairs:
+- Running tests, checks, grep, or diff inspection after a fix: action_category="search", problem_phase="validate".
+- Applying or refining a patch: action_category="edit", problem_phase="fix".
+- Reading nearby code after the likely target is known: action_category="context_aware", problem_phase="explore".
+- Choosing the next hypothesis without executing a repository command: action_category="plan", problem_phase="planning".
+
+Use these factors when setting should_run_verifier:
+- policy_uncertainty: how uncertain, underspecified, weakly grounded, or ambiguous the current candidate is. High uncertainty means verifier help is more valuable.
+- step_importance: how pivotal this step is for solving the issue. Branch-setting plans, decisive exploration, first real edits, strong validation, and closeout claims are often high-importance.
+- harm_risk: how likely this step is to be unnecessary, wrong, wasteful, or harmful. Repetitive exploration, speculative edits, broad context expansion without a clear need, and premature closeout are high-risk.
+
+Set should_run_verifier to true when extra candidate sampling plus verifier selection is worth the cost at this state, especially if any of these is high:
+- the policy model appears uncertain;
+- the current step is important for solving the issue;
+- the current step looks unnecessary, wrong, or harmful.
+
+Keep the labels separated:
+- action_category identifies what kind of action this is.
+- problem_phase identifies where the trajectory is in the solve.
+- policy_uncertainty, step_importance, and harm_risk explain why verification may or may not be worthwhile.
+- should_run_verifier is the final decision bit.
+
+Before returning, verify that action_category is one of the allowed action_category values and not one of the problem_phase values. Also verify that problem_phase is one of the allowed problem_phase values and not one of the action_category values.
+
+Output schema:
+{
+  "action_category": "<one allowed value>",
+  "problem_phase": "<one allowed value>",
+  "policy_uncertainty": "low|medium|high",
+  "step_importance": "low|medium|high",
+  "harm_risk": "low|medium|high",
+  "should_run_verifier": true,
+  "reason": "<short reason>",
+  "confidence": 0.0
+}

@@ -1,0 +1,1561 @@
+{
+  "schema_version": 1,
+  "intended_version": "0.1.0",
+  "status": "development_release",
+  "paper": "https://arxiv.org/abs/2610.30284v1",
+  "source_commits": {
+    "research_runtime": "fa12602ab5eae519bd92384f118c91c785641ce9",
+    "teacher_pipeline": "a863800102219a5e30573041f7708033ff0c81a4",
+    "trajectory_baseline": "f399fe9b7bc3d40bf53e80f5c5a8b53d7550549e",
+    "local_manuscript": "27b13a1b7c0517ac2f608dd07d358df8ffdd2c5c"
+  },
+  "source_policy": "Curated extraction; individual prompt content hashes identify working-tree and run-snapshot inputs independently of repository HEAD.",
+  "models": {
+    "untrained": {
+      "repo_id": "Qwen/Qwen3.5-4B",
+      "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "visibility": "public",
+      "license": "apache-2.0",
+      "checkpoint_sharing": "Upstream base model; no SWE-Verifier training.",
+      "url": "https://huggingface.co/Qwen/Qwen3.5-4B",
+      "verification": "Hugging Face model_info at the pinned revision; cached snapshot contents also inspected."
+    },
+    "score_only": {
+      "repo_id": "zkjzou/SWE-Verifier-Score-Only",
+      "revision": "c3303bde9ac77f3f628ef41a8f73a55070acb370",
+      "visibility": "private",
+      "license": "apache-2.0",
+      "license_status": "Declared for release; Score Only decision confirmed by owner.",
+      "training_rows": 30494,
+      "checkpoint_sharing": "Same checkpoint can serve both gate and selector.",
+      "url": "https://huggingface.co/zkjzou/SWE-Verifier-Score-Only",
+      "verification": "Hugging Face model_info at the pinned revision; cached snapshot contents also inspected.",
+      "publication_status": "prepared_private_release_branch",
+      "prepared_revision": "2ad852e64e579d0118d36b82759e2586b8a7abbd",
+      "prepared_url": "https://huggingface.co/zkjzou/SWE-Verifier-Score-Only/tree/2ad852e64e579d0118d36b82759e2586b8a7abbd",
+      "weights_sha256": "5643bf2fa117fd16da7c7ede53f0a28a4ea377fe707b825f14754e63af8ee1f6",
+      "previous_repo_id": "zkjzou/qwen35-4b-gpt56-only-verifier",
+      "paper_name": "SWE-Verifier (Score Only)",
+      "main_revision": "06d2d1da918ad91d85068ad9eb6951973909b304"
+    },
+    "joint_rubric": {
+      "repo_id": "zkjzou/SWE-Verifier-Joint-Rubric",
+      "revision": "a6d09a1c97b48bb00912c65e49ec6af5a1b63fd7",
+      "visibility": "private",
+      "license": "apache-2.0",
+      "training_rows": 30403,
+      "checkpoint_sharing": "Same checkpoint generates rubric and scores jointly; usable as gate and selector.",
+      "url": "https://huggingface.co/zkjzou/SWE-Verifier-Joint-Rubric",
+      "verification": "Hugging Face model_info at the pinned revision; cached snapshot contents also inspected.",
+      "license_status": "Declared for release; Score Only decision confirmed by owner.",
+      "publication_status": "prepared_private_release_branch",
+      "prepared_revision": "92b07071b51ef26ccac2396205ed26b7f5a9eed7",
+      "prepared_url": "https://huggingface.co/zkjzou/SWE-Verifier-Joint-Rubric/tree/92b07071b51ef26ccac2396205ed26b7f5a9eed7",
+      "weights_sha256": "3c3d257848cfce99d1806aace5037df9e59c632d042374abd503083efe4b17b3",
+      "previous_repo_id": "zkjzou/qwen35-4b-checklist-joint-gpt56-epoch2",
+      "paper_name": "SWE-Verifier (Joint Rubric)",
+      "main_revision": "59fbc2d7d98ccfbdab868eff046c70270b73ac7a"
+    },
+    "two_stage": {
+      "repo_id": "zkjzou/SWE-Verifier-Two-Stage-Rubric",
+      "revision": "62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b",
+      "visibility": "private",
+      "license": "apache-2.0",
+      "training_rows_per_mode": 30403,
+      "checkpoint_sharing": "Same MA-7968 weights serve both generator and scorer; separate per-action calls.",
+      "url": "https://huggingface.co/zkjzou/SWE-Verifier-Two-Stage-Rubric",
+      "verification": "Hugging Face model_info at the pinned revision; cached snapshot contents also inspected.",
+      "license_status": "Declared for release; Score Only decision confirmed by owner.",
+      "publication_status": "prepared_private_release_branch",
+      "prepared_revision": "f7f20c7a9fad72bf519a70cd8564ca1ae40f6d21",
+      "prepared_url": "https://huggingface.co/zkjzou/SWE-Verifier-Two-Stage-Rubric/tree/f7f20c7a9fad72bf519a70cd8564ca1ae40f6d21",
+      "weights_sha256": "6d099ddad5d5e634a7f75e977069a47f74c2f40f090af7a32e0c7ab0e931767c",
+      "previous_repo_id": "zkjzou/qwen35-4b-action-checklist-shared-gpt56-step7968",
+      "paper_name": "SWE-Verifier (Two-Stage Rubric)",
+      "main_revision": "e9bb6a29dc8934dbe7d4b2a21d38eec60df246f6"
+    }
+  },
+  "prompts": {
+    "index": "src/swe_verifier/prompts/index.json",
+    "index_sha256": "ab0f7ee95287f56fcc4896189b016ab461fc226418a241d624a1a623ec27fba6",
+    "files": {
+      "untrained/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+      "untrained/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+      "score_only/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+      "score_only/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+      "joint_rubric/system.txt": "edd9b093171e2d4a7c0699e52edcaa64222ce1a0a3b68790861acddfe6a8a45c",
+      "joint_rubric/scoring.txt": "4065f0775a1175fac4607a0175f5a73ef46b0d0dab07c8fe60a6464f2b56311f",
+      "joint_rubric/retry.txt": "fed37ac28da6989e6dc7416bdf23d8081dd07babba3cad2e384cd84d637123a3",
+      "two_stage/generator_system.txt": "2286235bbf36dea2a1cbbadcc13a91f7c9526261caea1140002bb30373e161e7",
+      "two_stage/generator.txt": "29e8148333673fcd7616b32dc094539cb3e7d76c0a14b193be2cf8b1bda61bf4",
+      "two_stage/scorer_system.txt": "b55d7b93a0cb1e16696fbc5caaa7c7587865fa2e58bf73433b64bf38aabaaba9",
+      "two_stage/scorer.jinja": "62a6d2068f4578bc424f5449f78983fd75a4ca4fe63e4bfa51367b69c5ce8212",
+      "two_stage/generator_retry.txt": "b57c6fc29c9900e1653debe9918635df3f8066fe97219e936301ffd5f793e983",
+      "two_stage/scorer_retry.txt": "9e9a54d47c5fd1aa33c15b3073bf31c047f39fba82711246bf4849c864947dd5",
+      "selection/system.txt": "7e089365b230469dd466b430dd28db8bc5289332dda126f613d61102e1bc67fa",
+      "selection/scoring.jinja": "437bba4e479a28d3cfd87caaabf5d166628503720c32c7b02ee61f9f4944ec01",
+      "teacher/system.txt": "6ce655a5c6118b4ad2cc643c045a151544f0c3d10a5921fd7bad36b52f69637b",
+      "teacher/annotate.jinja": "9207d34eb3de5915ed97fefd4c3f62b4257bbcececcc278b1ee0742be4adbfd0",
+      "analysis/action_classifier.jinja": "af6d4238c17a767151d03c7d651929ff1ecce6dd4e76d2ad726299224e680d60",
+      "analysis/action_classifier_system.txt": "0d21768043396628ffb7eb5323a88547c136a4f1b038b2120bed2278c54d164c",
+      "paper/multi_action.jinja": "c4586193b02bc35e1d3de2504cb02d42c8506623aa0b56fbdae3ce273e2880b4",
+      "paper/single_action.jinja": "4a264972c35ff6eff902008cce231a614e6ad44aac8b6c5e8277074e3dd5e850",
+      "paper/teacher_distillation.jinja": "85b113321b2cd5ff12b813fed9172095cafb823904c61c9a65ea6c0bf098f278",
+      "paper/action_classifier.jinja": "5050ba90184abd9feee1dfee290b870c216768238cc348eed438b63842067315",
+      "trajectory/pairwise.jinja": "28b19a3aaeceb01d036b2855e1847bb8769eadbc10dd118171e4a2f19e14da28",
+      "trajectory/criteria.json": "e029e0eec94ac630c2777bf05ff7bf5775f79046a5c651a74f20910df00b5134",
+      "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+      "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+      "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+      "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+      "untrained/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404",
+      "score_only/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404",
+      "selection/retry.txt": "c10ce08af95d728c76a5482666a58a5209a012061081eda7f9e01a72cc1f096e"
+    }
+  },
+  "recipes": {
+    "all_step_base": {
+      "path": "src/swe_verifier/recipes/all_step_base.yaml",
+      "sha256": "5225432479cfeccd2b89f808f6c1883d1529abfb383bb900813e9fef6b1b8d47",
+      "policy_family": "minimax",
+      "strategy": "all_step",
+      "verifier_variant": "untrained",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "untrained",
+          "repo_id": "Qwen/Qwen3.5-4B",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+        }
+      },
+      "prompts": {
+        "untrained/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+        "untrained/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "untrained/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe all_step_base --instance-id <instance_id> --output runs/all_step_base/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/all_step_base --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "explicit native output cap 2048; historical scalar serving cap unknown"
+      ]
+    },
+    "all_step_self": {
+      "path": "src/swe_verifier/recipes/all_step_self.yaml",
+      "sha256": "1d7d9209b57a749162dba0c0b54653d3c002a3397dfae082e43a896ebe949e41",
+      "policy_family": "minimax",
+      "strategy": "all_step",
+      "verifier_variant": null,
+      "selector_role": "policy",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": null
+      },
+      "prompts": {
+        "selection/system.txt": "7e089365b230469dd466b430dd28db8bc5289332dda126f613d61102e1bc67fa",
+        "selection/scoring.jinja": "437bba4e479a28d3cfd87caaabf5d166628503720c32c7b02ee61f9f4944ec01",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "selection/retry.txt": "c10ce08af95d728c76a5482666a58a5209a012061081eda7f9e01a72cc1f096e"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe all_step_self --instance-id <instance_id> --output runs/all_step_self/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/all_step_self --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision"
+      ]
+    },
+    "deepseek_all_step_base": {
+      "path": "src/swe_verifier/recipes/deepseek_all_step_base.yaml",
+      "sha256": "32dad74207b6c8624b57aed8331c64d68594270690b85879daadd16f2c4b0227",
+      "policy_family": "deepseek",
+      "strategy": "all_step",
+      "verifier_variant": "untrained",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "untrained",
+          "repo_id": "Qwen/Qwen3.5-4B",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+        }
+      },
+      "prompts": {
+        "untrained/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+        "untrained/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "untrained/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_all_step_base --instance-id <instance_id> --output runs/deepseek_all_step_base/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_all_step_base --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "explicit native output cap 2048; historical scalar serving cap unknown"
+      ]
+    },
+    "deepseek_all_step_self": {
+      "path": "src/swe_verifier/recipes/deepseek_all_step_self.yaml",
+      "sha256": "dcc472232099e422878980a2ccc1a62dc9933c7ec31393158ff10ebe9820cd23",
+      "policy_family": "deepseek",
+      "strategy": "all_step",
+      "verifier_variant": null,
+      "selector_role": "policy",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": null
+      },
+      "prompts": {
+        "selection/system.txt": "7e089365b230469dd466b430dd28db8bc5289332dda126f613d61102e1bc67fa",
+        "selection/scoring.jinja": "437bba4e479a28d3cfd87caaabf5d166628503720c32c7b02ee61f9f4944ec01",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "selection/retry.txt": "c10ce08af95d728c76a5482666a58a5209a012061081eda7f9e01a72cc1f096e"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_all_step_self --instance-id <instance_id> --output runs/deepseek_all_step_self/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_all_step_self --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision"
+      ]
+    },
+    "deepseek_gate_only": {
+      "path": "src/swe_verifier/recipes/deepseek_gate_only.yaml",
+      "sha256": "e21e96a0efe2756f3231146f810fd4f30d6f5f35d333ea1d2d2b7e23267d76bd",
+      "policy_family": "deepseek",
+      "strategy": "selective",
+      "verifier_variant": "score_only",
+      "selector_role": "policy",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "score_only",
+          "repo_id": "zkjzou/SWE-Verifier-Score-Only",
+          "revision": "c3303bde9ac77f3f628ef41a8f73a55070acb370"
+        }
+      },
+      "prompts": {
+        "score_only/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+        "score_only/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+        "selection/system.txt": "7e089365b230469dd466b430dd28db8bc5289332dda126f613d61102e1bc67fa",
+        "selection/scoring.jinja": "437bba4e479a28d3cfd87caaabf5d166628503720c32c7b02ee61f9f4944ec01",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "score_only/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404",
+        "selection/retry.txt": "c10ce08af95d728c76a5482666a58a5209a012061081eda7f9e01a72cc1f096e"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_gate_only --instance-id <instance_id> --output runs/deepseek_gate_only/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_gate_only --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "explicit native output cap 2048; historical scalar serving cap unknown",
+        "released Score Only gate at 0.2 with independent policy selection; exact full500 gate-only experiment provenance not recovered"
+      ]
+    },
+    "deepseek_none": {
+      "path": "src/swe_verifier/recipes/deepseek_none.yaml",
+      "sha256": "19ad728bd59c1326baa08fff9b137c9037d2c551f0e9a43b7a9497e76a866aa3",
+      "policy_family": "deepseek",
+      "strategy": "none",
+      "verifier_variant": null,
+      "selector_role": "none",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": null
+      },
+      "prompts": {
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_none --instance-id <instance_id> --output runs/deepseek_none/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_none --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision"
+      ]
+    },
+    "deepseek_selective_joint_rubric": {
+      "path": "src/swe_verifier/recipes/deepseek_selective_joint_rubric.yaml",
+      "sha256": "eebaa8561659a01c30461f8937d8aacfe4ea4b0773bfda24dd7951c7bd675e3c",
+      "policy_family": "deepseek",
+      "strategy": "selective",
+      "verifier_variant": "joint_rubric",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "joint_rubric",
+          "repo_id": "zkjzou/SWE-Verifier-Joint-Rubric",
+          "revision": "a6d09a1c97b48bb00912c65e49ec6af5a1b63fd7"
+        }
+      },
+      "prompts": {
+        "joint_rubric/system.txt": "edd9b093171e2d4a7c0699e52edcaa64222ce1a0a3b68790861acddfe6a8a45c",
+        "joint_rubric/scoring.txt": "4065f0775a1175fac4607a0175f5a73ef46b0d0dab07c8fe60a6464f2b56311f",
+        "joint_rubric/retry.txt": "fed37ac28da6989e6dc7416bdf23d8081dd07babba3cad2e384cd84d637123a3",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": {
+        "source_run": "source-record:4b7fa9a185b5bae6",
+        "source_task": "django__django-13279",
+        "source_trajectory_sha256": "7ede4554aab736637265957040505a43904b8f74ed4115b69ca5a937a260f027"
+      },
+      "provenance_status": "selective_settings_recovered_with_explicit_adaptations",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_selective_joint_rubric --instance-id <instance_id> --output runs/deepseek_selective_joint_rubric/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_selective_joint_rubric --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision"
+      ]
+    },
+    "deepseek_selective_score_only": {
+      "path": "src/swe_verifier/recipes/deepseek_selective_score_only.yaml",
+      "sha256": "ff3e2304d5ba4b601933b75d6fe5540660b8ce780eb9c7b81f5f2b3b68e5f0a4",
+      "policy_family": "deepseek",
+      "strategy": "selective",
+      "verifier_variant": "score_only",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "score_only",
+          "repo_id": "zkjzou/SWE-Verifier-Score-Only",
+          "revision": "c3303bde9ac77f3f628ef41a8f73a55070acb370"
+        }
+      },
+      "prompts": {
+        "score_only/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+        "score_only/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "score_only/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": {
+        "source_run": "source-record:12db64dcc5433bad",
+        "source_task": "django__django-13279",
+        "source_trajectory_sha256": "2ef20726268b9ac01a9336129a0ed9fcd3232cbf95f2b1a5aa077e80da75069e"
+      },
+      "provenance_status": "selective_settings_recovered_with_explicit_adaptations",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_selective_score_only --instance-id <instance_id> --output runs/deepseek_selective_score_only/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_selective_score_only --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "explicit native output cap 2048; historical scalar serving cap unknown"
+      ]
+    },
+    "deepseek_selective_two_stage": {
+      "path": "src/swe_verifier/recipes/deepseek_selective_two_stage.yaml",
+      "sha256": "f5854923cfa749efba0553a8c352da336d771a9f8bd38e8eafb04825e6f3205a",
+      "policy_family": "deepseek",
+      "strategy": "selective",
+      "verifier_variant": "two_stage",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "two_stage",
+          "repo_id": "zkjzou/SWE-Verifier-Two-Stage-Rubric",
+          "revision": "62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b"
+        }
+      },
+      "prompts": {
+        "two_stage/generator_system.txt": "2286235bbf36dea2a1cbbadcc13a91f7c9526261caea1140002bb30373e161e7",
+        "two_stage/generator.txt": "29e8148333673fcd7616b32dc094539cb3e7d76c0a14b193be2cf8b1bda61bf4",
+        "two_stage/scorer_system.txt": "b55d7b93a0cb1e16696fbc5caaa7c7587865fa2e58bf73433b64bf38aabaaba9",
+        "two_stage/scorer.jinja": "62a6d2068f4578bc424f5449f78983fd75a4ca4fe63e4bfa51367b69c5ce8212",
+        "two_stage/generator_retry.txt": "b57c6fc29c9900e1653debe9918635df3f8066fe97219e936301ffd5f793e983",
+        "two_stage/scorer_retry.txt": "9e9a54d47c5fd1aa33c15b3073bf31c047f39fba82711246bf4849c864947dd5",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": {
+        "source_run": "source-record:3583e84cf6b2093d",
+        "source_task": "django__django-13279",
+        "source_trajectory_sha256": "3c7f87ade49cc7be74fb52de07edf5704656558cd6efd95987ba79eb56663e82"
+      },
+      "provenance_status": "selective_settings_recovered_with_explicit_adaptations",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_selective_two_stage --instance-id <instance_id> --output runs/deepseek_selective_two_stage/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_selective_two_stage --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "primary output cap 2048 and corrective retry cap 4096 match recovered native protocol"
+      ]
+    },
+    "deepseek_selective_untrained": {
+      "path": "src/swe_verifier/recipes/deepseek_selective_untrained.yaml",
+      "sha256": "41436bd07d2d08d0bd0faa9cb0879b130bf34c628c7709c99b4ded9276e1602e",
+      "policy_family": "deepseek",
+      "strategy": "selective",
+      "verifier_variant": "untrained",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "untrained",
+          "repo_id": "Qwen/Qwen3.5-4B",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+        }
+      },
+      "prompts": {
+        "untrained/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+        "untrained/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "untrained/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": {
+        "source_run": "source-record:09c837dfdaa2edbf",
+        "source_task": "django__django-13279",
+        "source_trajectory_sha256": "3a363d479958ca74eb290e4205985940419db5bb1711d7c274e0cdca909e939d"
+      },
+      "provenance_status": "selective_settings_recovered_with_explicit_adaptations",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_selective_untrained --instance-id <instance_id> --output runs/deepseek_selective_untrained/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_selective_untrained --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "explicit native output cap 2048; historical scalar serving cap unknown"
+      ]
+    },
+    "deepseek_trajectory": {
+      "path": "src/swe_verifier/recipes/deepseek_trajectory.yaml",
+      "sha256": "b771d372f3d42a497fbd4216387edd0e4b71710c77519c3bcdabe21fdd928920",
+      "policy_family": "deepseek",
+      "strategy": "trajectory",
+      "verifier_variant": null,
+      "selector_role": "none",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/deepseek-ai/DeepSeek-V4-Flash",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": null
+      },
+      "prompts": {
+        "trajectory/pairwise.jinja": "28b19a3aaeceb01d036b2855e1847bb8769eadbc10dd118171e4a2f19e14da28",
+        "trajectory/criteria.json": "e029e0eec94ac630c2777bf05ff7bf5775f79046a5c651a74f20910df00b5134",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe deepseek_trajectory --instance-id <instance_id> --output runs/deepseek_trajectory/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/deepseek_trajectory --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "all pairwise comparisons use policy model as judge without outcome-based preselection; historical orchestration parity pending"
+      ]
+    },
+    "gate_only": {
+      "path": "src/swe_verifier/recipes/gate_only.yaml",
+      "sha256": "05922a7dec37db4f95ceb6dadcabc61b27f15a814e52e1e399d80acf1b7ef5a5",
+      "policy_family": "minimax",
+      "strategy": "selective",
+      "verifier_variant": "score_only",
+      "selector_role": "policy",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "score_only",
+          "repo_id": "zkjzou/SWE-Verifier-Score-Only",
+          "revision": "c3303bde9ac77f3f628ef41a8f73a55070acb370"
+        }
+      },
+      "prompts": {
+        "score_only/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+        "score_only/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+        "selection/system.txt": "7e089365b230469dd466b430dd28db8bc5289332dda126f613d61102e1bc67fa",
+        "selection/scoring.jinja": "437bba4e479a28d3cfd87caaabf5d166628503720c32c7b02ee61f9f4944ec01",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "score_only/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404",
+        "selection/retry.txt": "c10ce08af95d728c76a5482666a58a5209a012061081eda7f9e01a72cc1f096e"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe gate_only --instance-id <instance_id> --output runs/gate_only/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/gate_only --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "explicit native output cap 2048; historical scalar serving cap unknown",
+        "released Score Only gate at 0.2 with independent policy selection; exact full500 gate-only experiment provenance not recovered"
+      ]
+    },
+    "none": {
+      "path": "src/swe_verifier/recipes/none.yaml",
+      "sha256": "6ec751c0d01b8fbcb0b3186f8678704cf9878487bf8326ac43a20850b411bc95",
+      "policy_family": "minimax",
+      "strategy": "none",
+      "verifier_variant": null,
+      "selector_role": "none",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": null
+      },
+      "prompts": {
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe none --instance-id <instance_id> --output runs/none/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/none --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision"
+      ]
+    },
+    "selective_joint_rubric": {
+      "path": "src/swe_verifier/recipes/selective_joint_rubric.yaml",
+      "sha256": "f1069332ddc538e5c3b4061f19e6fafe1baabd5dff461acd390f117aa05e075e",
+      "policy_family": "minimax",
+      "strategy": "selective",
+      "verifier_variant": "joint_rubric",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "joint_rubric",
+          "repo_id": "zkjzou/SWE-Verifier-Joint-Rubric",
+          "revision": "a6d09a1c97b48bb00912c65e49ec6af5a1b63fd7"
+        }
+      },
+      "prompts": {
+        "joint_rubric/system.txt": "edd9b093171e2d4a7c0699e52edcaa64222ce1a0a3b68790861acddfe6a8a45c",
+        "joint_rubric/scoring.txt": "4065f0775a1175fac4607a0175f5a73ef46b0d0dab07c8fe60a6464f2b56311f",
+        "joint_rubric/retry.txt": "fed37ac28da6989e6dc7416bdf23d8081dd07babba3cad2e384cd84d637123a3",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": {
+        "source_run": "source-record:23642fcb53739d47",
+        "source_task": "django__django-13279",
+        "source_trajectory_sha256": "c6e53029ce2782a4759cdb1e0c9d1ba0e76a6768abce07c896f00550f09e09d6"
+      },
+      "provenance_status": "selective_settings_recovered_with_explicit_adaptations",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe selective_joint_rubric --instance-id <instance_id> --output runs/selective_joint_rubric/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/selective_joint_rubric --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision"
+      ]
+    },
+    "selective_score_only": {
+      "path": "src/swe_verifier/recipes/selective_score_only.yaml",
+      "sha256": "c0d4440943971471d6f53c3891c288cbfa4feb539ca91c92c63180b6416a3daa",
+      "policy_family": "minimax",
+      "strategy": "selective",
+      "verifier_variant": "score_only",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "score_only",
+          "repo_id": "zkjzou/SWE-Verifier-Score-Only",
+          "revision": "c3303bde9ac77f3f628ef41a8f73a55070acb370"
+        }
+      },
+      "prompts": {
+        "score_only/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+        "score_only/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "score_only/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": {
+        "source_run": "source-record:31651a73509f38e9",
+        "source_task": "django__django-13279",
+        "source_trajectory_sha256": "7b33e17ccffb14d91038e9ecfdfa913be5806e8ac16c40d7b9fa93de25735e39"
+      },
+      "provenance_status": "selective_settings_recovered_with_explicit_adaptations",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe selective_score_only --instance-id <instance_id> --output runs/selective_score_only/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/selective_score_only --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "explicit native output cap 2048; historical scalar serving cap unknown"
+      ]
+    },
+    "selective_two_stage": {
+      "path": "src/swe_verifier/recipes/selective_two_stage.yaml",
+      "sha256": "9a685494adf6ec39dce68e2b7f0916bd30e2d5fe6eb12b8123529c42005cdda7",
+      "policy_family": "minimax",
+      "strategy": "selective",
+      "verifier_variant": "two_stage",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "two_stage",
+          "repo_id": "zkjzou/SWE-Verifier-Two-Stage-Rubric",
+          "revision": "62b9acc9ba4d93e0759bf0a8bb1bfc8d9d3ca01b"
+        }
+      },
+      "prompts": {
+        "two_stage/generator_system.txt": "2286235bbf36dea2a1cbbadcc13a91f7c9526261caea1140002bb30373e161e7",
+        "two_stage/generator.txt": "29e8148333673fcd7616b32dc094539cb3e7d76c0a14b193be2cf8b1bda61bf4",
+        "two_stage/scorer_system.txt": "b55d7b93a0cb1e16696fbc5caaa7c7587865fa2e58bf73433b64bf38aabaaba9",
+        "two_stage/scorer.jinja": "62a6d2068f4578bc424f5449f78983fd75a4ca4fe63e4bfa51367b69c5ce8212",
+        "two_stage/generator_retry.txt": "b57c6fc29c9900e1653debe9918635df3f8066fe97219e936301ffd5f793e983",
+        "two_stage/scorer_retry.txt": "9e9a54d47c5fd1aa33c15b3073bf31c047f39fba82711246bf4849c864947dd5",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": {
+        "source_run": "source-record:21a4549a58cf1378",
+        "source_task": "django__django-13279",
+        "source_trajectory_sha256": "7ef46c1b82670b26be95f7b55074060ffb436a4bc9b6bbf4a4c91f04e63ce313"
+      },
+      "provenance_status": "selective_settings_recovered_with_explicit_adaptations",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe selective_two_stage --instance-id <instance_id> --output runs/selective_two_stage/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/selective_two_stage --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "primary output cap 2048 and corrective retry cap 4096 match recovered native protocol"
+      ]
+    },
+    "selective_untrained": {
+      "path": "src/swe_verifier/recipes/selective_untrained.yaml",
+      "sha256": "845ef0130f9289da9015b3acf372318b73309feccfada63724b6eef469810f1f",
+      "policy_family": "minimax",
+      "strategy": "selective",
+      "verifier_variant": "untrained",
+      "selector_role": "verifier",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": {
+          "manifest_model_key": "untrained",
+          "repo_id": "Qwen/Qwen3.5-4B",
+          "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+        }
+      },
+      "prompts": {
+        "untrained/system.txt": "b9bf30b60d9b237e9fc3d229fb3955274a781f603aaa3ed2d7976df1adbcf515",
+        "untrained/scoring.jinja": "2947ae7974577216dded397ae35e6c4fba70f320c64e0e9f4bd7c52f10cb3f53",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6",
+        "untrained/retry.txt": "7d5fab95900b1543fbd38fd52c34b3766136aeaa53251e632bf3c5e510dbf404"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": {
+        "source_run": "source-record:6919b01960f012f6",
+        "source_task": "django__django-13279",
+        "source_trajectory_sha256": "809e33b2017fc535bdf1f87b94245e435ed48a781ebd317c14230537a0297f3d"
+      },
+      "provenance_status": "selective_settings_recovered_with_explicit_adaptations",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe selective_untrained --instance-id <instance_id> --output runs/selective_untrained/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/selective_untrained --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "explicit native output cap 2048; historical scalar serving cap unknown"
+      ]
+    },
+    "trajectory": {
+      "path": "src/swe_verifier/recipes/trajectory.yaml",
+      "sha256": "cb83450a5bd74172278ad899cf74ee23d85a2ae32abd37596c424f6ebc5b770a",
+      "policy_family": "minimax",
+      "strategy": "trajectory",
+      "verifier_variant": null,
+      "selector_role": "none",
+      "models": {
+        "policy": {
+          "repo_or_provider_name": "openai/MiniMaxAI/MiniMax-M2.7",
+          "revision": null,
+          "revision_status": "Hosted alias; immutable revision unavailable"
+        },
+        "verifier": null
+      },
+      "prompts": {
+        "trajectory/pairwise.jinja": "28b19a3aaeceb01d036b2855e1847bb8769eadbc10dd118171e4a2f19e14da28",
+        "trajectory/criteria.json": "e029e0eec94ac630c2777bf05ff7bf5775f79046a5c651a74f20910df00b5134",
+        "policy/system.jinja": "d6e602365e7ec42771b4fb8d2df559cca29a946defa0edda32de0161eca33e4f",
+        "policy/instance.jinja": "a6538b35a9dfbca48855e9666567ea339008ad6d54df8cad3be2f165aa88da64",
+        "policy/observation.jinja": "f7051970b89cfb2056df99a07161927bd4b16628c3eba7d2397ce5f6a9afc022",
+        "policy/format_error.jinja": "9e3e16456c4263475658c679d93569b5e4d915353ca0f914c79dfcecee88d0e6"
+      },
+      "benchmark": {
+        "manifest_key": "benchmark",
+        "split": "test",
+        "paper_dataset_identity_verified": false
+      },
+      "configuration_evidence": null,
+      "provenance_status": "baseline_or_gate_only_historical_run_mapping_pending",
+      "paper_reproduction_verified": false,
+      "run_command": "swe-verifier run --recipe trajectory --instance-id <instance_id> --output runs/trajectory/<instance_id>",
+      "evaluation_command": "swe-verifier evaluate --runs runs/trajectory --report official-report.json",
+      "release_adaptations": [
+        "upstream Mini-swe-agent 2.4.6 adapter replaces the research fork",
+        "role-specific usage accounting; total dollar budget unset when prices are unknown",
+        "model-call budget 10000 is a release operational limit",
+        "hosted policy model has no immutable provider revision",
+        "all pairwise comparisons use policy model as judge without outcome-based preselection; historical orchestration parity pending"
+      ]
+    }
+  },
+  "recipe_evidence": [
+    {
+      "policy": "minimax",
+      "variant": "untrained",
+      "source_run": "source-record:6919b01960f012f6",
+      "source_task": "django__django-13279",
+      "source_trajectory_sha256": "809e33b2017fc535bdf1f87b94245e435ed48a781ebd317c14230537a0297f3d",
+      "gate_threshold": 0.3,
+      "score_draws": 3,
+      "candidate_count": 3,
+      "reuse_gate_score": true,
+      "step_limit": 250,
+      "cost_limit_usd": 3.0,
+      "policy_model": "openai/MiniMaxAI/MiniMax-M2.7",
+      "policy_sampling": {
+        "parallel_tool_calls": false
+      },
+      "verifier_model": "openai/Qwen/Qwen3.5-4B",
+      "verifier_sampling": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1.0,
+        "extra_body": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        }
+      },
+      "history_message_format": "multi_turn_chat",
+      "history_steps": -1,
+      "format_retries": 0,
+      "inference_source_adapter": "litellm_textbased",
+      "verifier_timeout_seconds": 1800,
+      "verifier_context_limit_tokens": 262144,
+      "verifier_primary_max_tokens": null,
+      "verifier_retry_max_tokens": null,
+      "generation_limit_provenance": "Not specified in saved model kwargs; provider/server default not recovered.",
+      "transport": "chat_completions"
+    },
+    {
+      "policy": "minimax",
+      "variant": "score_only",
+      "source_run": "source-record:31651a73509f38e9",
+      "source_task": "django__django-13279",
+      "source_trajectory_sha256": "7b33e17ccffb14d91038e9ecfdfa913be5806e8ac16c40d7b9fa93de25735e39",
+      "gate_threshold": 0.1,
+      "score_draws": 3,
+      "candidate_count": 3,
+      "reuse_gate_score": true,
+      "step_limit": 250,
+      "cost_limit_usd": 3.0,
+      "policy_model": "openai/MiniMaxAI/MiniMax-M2.7",
+      "policy_sampling": {
+        "parallel_tool_calls": false
+      },
+      "verifier_model": "openai/zkjzou/qwen35-4b-gpt56-only-verifier",
+      "verifier_sampling": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1.0,
+        "extra_body": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        }
+      },
+      "history_message_format": "multi_turn_chat",
+      "history_steps": -1,
+      "format_retries": 0,
+      "inference_source_adapter": "litellm_textbased",
+      "verifier_timeout_seconds": 1800,
+      "verifier_context_limit_tokens": 262144,
+      "verifier_primary_max_tokens": null,
+      "verifier_retry_max_tokens": null,
+      "generation_limit_provenance": "Not specified in saved model kwargs; provider/server default not recovered.",
+      "transport": "chat_completions"
+    },
+    {
+      "policy": "minimax",
+      "variant": "joint_rubric",
+      "source_run": "source-record:23642fcb53739d47",
+      "source_task": "django__django-13279",
+      "source_trajectory_sha256": "c6e53029ce2782a4759cdb1e0c9d1ba0e76a6768abce07c896f00550f09e09d6",
+      "gate_threshold": 0.2,
+      "score_draws": 3,
+      "candidate_count": 3,
+      "reuse_gate_score": true,
+      "step_limit": 250,
+      "cost_limit_usd": 3.0,
+      "policy_model": "openai/MiniMaxAI/MiniMax-M2.7",
+      "policy_sampling": {
+        "parallel_tool_calls": false
+      },
+      "verifier_model": "zkjzou/qwen35-4b-checklist-joint-gpt56-epoch2",
+      "verifier_sampling": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1.0,
+        "n": 1,
+        "stream": false,
+        "stop_token_ids": [
+          248046
+        ],
+        "ignore_eos": true,
+        "add_special_tokens": false,
+        "seed": null
+      },
+      "history_message_format": "single_prompt",
+      "history_steps": -1,
+      "format_retries": 3,
+      "inference_source_adapter": "minisweagent.models.extra.joint_checklist.JointChecklistModel",
+      "verifier_timeout_seconds": 1800,
+      "verifier_context_limit_tokens": 262144,
+      "verifier_primary_max_tokens": 2048,
+      "verifier_retry_max_tokens": 4096,
+      "transport": "native_token_completions",
+      "rendering": {
+        "add_generation_prompt": true,
+        "enable_thinking": false,
+        "automatic_truncation": false
+      },
+      "invalid_output_behavior": "zero after three failed corrective retries"
+    },
+    {
+      "policy": "minimax",
+      "variant": "two_stage",
+      "source_run": "source-record:21a4549a58cf1378",
+      "source_task": "django__django-13279",
+      "source_trajectory_sha256": "7ef46c1b82670b26be95f7b55074060ffb436a4bc9b6bbf4a4c91f04e63ce313",
+      "gate_threshold": 0.2,
+      "score_draws": 3,
+      "candidate_count": 3,
+      "reuse_gate_score": true,
+      "step_limit": 250,
+      "cost_limit_usd": 3.0,
+      "policy_model": "openai/MiniMaxAI/MiniMax-M2.7",
+      "policy_sampling": {
+        "parallel_tool_calls": false
+      },
+      "verifier_model": "zkjzou/qwen35-4b-action-checklist-shared-gpt56-step7968",
+      "verifier_sampling": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1.0,
+        "n": 1,
+        "stream": false,
+        "stop_token_ids": [
+          248046
+        ],
+        "ignore_eos": true,
+        "add_special_tokens": false,
+        "seed": null
+      },
+      "history_message_format": "single_prompt",
+      "history_steps": -1,
+      "format_retries": 1,
+      "inference_source_adapter": "minisweagent.models.extra.action_checklist_pair.ActionChecklistPairModel",
+      "verifier_timeout_seconds": 1800,
+      "verifier_context_limit_tokens": 262144,
+      "verifier_primary_max_tokens": 2048,
+      "verifier_retry_max_tokens": 4096,
+      "transport": "native_token_completions",
+      "rendering": {
+        "add_generation_prompt": true,
+        "enable_thinking": false,
+        "automatic_truncation": false
+      },
+      "invalid_output_behavior": "missing draw after one corrective retry per stage; average available finite draws; error if no coverage"
+    },
+    {
+      "policy": "deepseek",
+      "variant": "untrained",
+      "source_run": "source-record:09c837dfdaa2edbf",
+      "source_task": "django__django-13279",
+      "source_trajectory_sha256": "3a363d479958ca74eb290e4205985940419db5bb1711d7c274e0cdca909e939d",
+      "gate_threshold": 0.2,
+      "score_draws": 3,
+      "candidate_count": 3,
+      "reuse_gate_score": true,
+      "step_limit": 250,
+      "cost_limit_usd": 3.0,
+      "policy_model": "openai/deepseek-ai/DeepSeek-V4-Flash",
+      "policy_sampling": {
+        "extra_body": {
+          "thinking": {
+            "type": "enabled"
+          },
+          "chat_template_kwargs": {
+            "thinking": true,
+            "reasoning_effort": "high"
+          }
+        },
+        "reasoning_effort": "high",
+        "temperature": 1.0,
+        "top_p": 1.0,
+        "parallel_tool_calls": false
+      },
+      "verifier_model": "openai/Qwen/Qwen3.5-4B",
+      "verifier_sampling": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1.0,
+        "extra_body": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        }
+      },
+      "history_message_format": "multi_turn_chat",
+      "history_steps": -1,
+      "format_retries": 0,
+      "inference_source_adapter": "litellm_textbased",
+      "verifier_timeout_seconds": 1800,
+      "verifier_context_limit_tokens": 262144,
+      "verifier_primary_max_tokens": null,
+      "verifier_retry_max_tokens": null,
+      "generation_limit_provenance": "Not specified in saved model kwargs; provider/server default not recovered.",
+      "transport": "chat_completions"
+    },
+    {
+      "policy": "deepseek",
+      "variant": "score_only",
+      "source_run": "source-record:12db64dcc5433bad",
+      "source_task": "django__django-13279",
+      "source_trajectory_sha256": "2ef20726268b9ac01a9336129a0ed9fcd3232cbf95f2b1a5aa077e80da75069e",
+      "gate_threshold": 0.2,
+      "score_draws": 3,
+      "candidate_count": 3,
+      "reuse_gate_score": true,
+      "step_limit": 250,
+      "cost_limit_usd": 3.0,
+      "policy_model": "openai/deepseek-ai/DeepSeek-V4-Flash",
+      "policy_sampling": {
+        "extra_body": {
+          "thinking": {
+            "type": "enabled"
+          },
+          "chat_template_kwargs": {
+            "thinking": true,
+            "reasoning_effort": "high"
+          }
+        },
+        "reasoning_effort": "high",
+        "temperature": 1.0,
+        "top_p": 1.0,
+        "parallel_tool_calls": false
+      },
+      "verifier_model": "openai/zkjzou/qwen35-4b-gpt56-only-verifier",
+      "verifier_sampling": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1.0,
+        "extra_body": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        }
+      },
+      "history_message_format": "multi_turn_chat",
+      "history_steps": -1,
+      "format_retries": 0,
+      "inference_source_adapter": "litellm_textbased",
+      "verifier_timeout_seconds": 1800,
+      "verifier_context_limit_tokens": 262144,
+      "verifier_primary_max_tokens": null,
+      "verifier_retry_max_tokens": null,
+      "generation_limit_provenance": "Not specified in saved model kwargs; provider/server default not recovered.",
+      "transport": "chat_completions"
+    },
+    {
+      "policy": "deepseek",
+      "variant": "joint_rubric",
+      "source_run": "source-record:4b7fa9a185b5bae6",
+      "source_task": "django__django-13279",
+      "source_trajectory_sha256": "7ede4554aab736637265957040505a43904b8f74ed4115b69ca5a937a260f027",
+      "gate_threshold": 0.2,
+      "score_draws": 3,
+      "candidate_count": 3,
+      "reuse_gate_score": true,
+      "step_limit": 250,
+      "cost_limit_usd": 3.0,
+      "policy_model": "openai/deepseek-ai/DeepSeek-V4-Flash",
+      "policy_sampling": {
+        "extra_body": {
+          "thinking": {
+            "type": "enabled"
+          },
+          "chat_template_kwargs": {
+            "thinking": true,
+            "reasoning_effort": "high"
+          }
+        },
+        "reasoning_effort": "high",
+        "temperature": 1.0,
+        "top_p": 1.0,
+        "parallel_tool_calls": false
+      },
+      "verifier_model": "zkjzou/qwen35-4b-checklist-joint-gpt56-epoch2",
+      "verifier_sampling": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1.0,
+        "n": 1,
+        "stream": false,
+        "stop_token_ids": [
+          248046
+        ],
+        "ignore_eos": true,
+        "add_special_tokens": false,
+        "seed": null
+      },
+      "history_message_format": "single_prompt",
+      "history_steps": -1,
+      "format_retries": 3,
+      "inference_source_adapter": "minisweagent.models.extra.joint_checklist.JointChecklistModel",
+      "verifier_timeout_seconds": 1800,
+      "verifier_context_limit_tokens": 262144,
+      "verifier_primary_max_tokens": 2048,
+      "verifier_retry_max_tokens": 4096,
+      "transport": "native_token_completions",
+      "rendering": {
+        "add_generation_prompt": true,
+        "enable_thinking": false,
+        "automatic_truncation": false
+      },
+      "invalid_output_behavior": "zero after three failed corrective retries"
+    },
+    {
+      "policy": "deepseek",
+      "variant": "two_stage",
+      "source_run": "source-record:3583e84cf6b2093d",
+      "source_task": "django__django-13279",
+      "source_trajectory_sha256": "3c7f87ade49cc7be74fb52de07edf5704656558cd6efd95987ba79eb56663e82",
+      "gate_threshold": 0.2,
+      "score_draws": 3,
+      "candidate_count": 3,
+      "reuse_gate_score": true,
+      "step_limit": 250,
+      "cost_limit_usd": 3.0,
+      "policy_model": "openai/deepseek-ai/DeepSeek-V4-Flash",
+      "policy_sampling": {
+        "extra_body": {
+          "thinking": {
+            "type": "enabled"
+          },
+          "chat_template_kwargs": {
+            "thinking": true,
+            "reasoning_effort": "high"
+          }
+        },
+        "reasoning_effort": "high",
+        "temperature": 1.0,
+        "top_p": 1.0,
+        "parallel_tool_calls": false
+      },
+      "verifier_model": "zkjzou/qwen35-4b-action-checklist-shared-gpt56-step7968",
+      "verifier_sampling": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "top_k": 20,
+        "min_p": 0.0,
+        "presence_penalty": 1.5,
+        "repetition_penalty": 1.0,
+        "n": 1,
+        "stream": false,
+        "stop_token_ids": [
+          248046
+        ],
+        "ignore_eos": true,
+        "add_special_tokens": false,
+        "seed": null
+      },
+      "history_message_format": "single_prompt",
+      "history_steps": -1,
+      "format_retries": 1,
+      "inference_source_adapter": "minisweagent.models.extra.action_checklist_pair.ActionChecklistPairModel",
+      "verifier_timeout_seconds": 1800,
+      "verifier_context_limit_tokens": 262144,
+      "verifier_primary_max_tokens": 2048,
+      "verifier_retry_max_tokens": 4096,
+      "transport": "native_token_completions",
+      "rendering": {
+        "add_generation_prompt": true,
+        "enable_thinking": false,
+        "automatic_truncation": false
+      },
+      "invalid_output_behavior": "missing draw after one corrective retry per stage; average available finite draws; error if no coverage"
+    }
+  ],
+  "dataset": {
+    "status": "exact_training_exports_recovered_and_hash_verified",
+    "repo_id": "zkjzou/swe-verifier-training",
+    "revision": "867f17b0004494b32b68d8bb03640073fdd4308e",
+    "raw_teacher_corpus": {
+      "run_name": "teacher_v2_v3clean_6669_gpt56_sol_high_flex_explicit30m_8lane12rpm_20260730T071501Z",
+      "run_fingerprint": "0879433ccb2cfbe8e7918c8be3073215abc652233f958ee4c410f9b4a318a849",
+      "summary_sha256": "9a598ab7863597324a8548e63d9eb5f1603d44b97ccca452e56e33ecebe302a3",
+      "counts": {
+        "canonical_slates": 6669,
+        "candidate_rows": 33343,
+        "raw_teacher_responses": 6669,
+        "reused_slates": 98,
+        "new_slates": 6571
+      },
+      "status": {
+        "label_complete": true,
+        "raw_audit_passed": true,
+        "student_training_ready": false,
+        "student_train_split_ready": true
+      },
+      "leakage_quarantine": "The original 406-slate quarantine is not a task-disjoint validation split.",
+      "publication_status": "Included in the private release dataset as raw_teacher/corpus; saved teacher inputs and output text with provider metadata excluded and detected sensitive patterns redacted.",
+      "release": {
+        "revision": "2471b5f0a749077bec144a2c08fdbf4095b70752",
+        "configuration": "raw_teacher",
+        "split": "corpus",
+        "request_response_pairs": 6669,
+        "candidate_actions": 33343,
+        "redacted_rows": 270,
+        "source_repository_notices": 98,
+        "training_exports_unchanged": true
+      }
+    },
+    "training_projection": "Original checkpoint-training exports recovered on the mounted training filesystem; decompressed bytes match saved source contracts. Four configurations preserve historical training inputs, targets, row order, and filtering.",
+    "excluded_older_hub_datasets": [
+      "zkjzou/swe-prm-verifier-slates",
+      "zkjzou/swe-prm-verifier-targets"
+    ],
+    "license": "apache-2.0",
+    "license_scope": "original annotations and packaging; embedded upstream code retains its own licenses",
+    "visibility": "private",
+    "configurations": {
+      "joint_rubric": {
+        "artifacts": {
+          "train.jsonl": {
+            "file": "joint_rubric/train.jsonl.gz",
+            "gzip_bytes": 362457216,
+            "gzip_sha256": "dcc12891b6655403d50e8f77b92196b4acd89e24b6883a7d3b6de731a9926853",
+            "original_bytes": 1892087940,
+            "original_sha256": "ccb007ff9d294e2562dfdd06b64d427b1d78108376e39e3f7235bd65e81050be",
+            "rows": 30403
+          },
+          "train_manifest.jsonl": {
+            "file": "joint_rubric/train_manifest.jsonl.gz",
+            "gzip_bytes": 6329540,
+            "gzip_sha256": "e59175385febe9b3be23e3e28f0b1ab2a31a8ebc799b751c2d488e1be94ffc11",
+            "original_bytes": 54534739,
+            "original_sha256": "3a223a724d98d17563ea29976cebb053ddf9ea95d2c006ea934109b81ea20052",
+            "rows": 30403
+          }
+        },
+        "rows": 30403,
+        "slates": 6096,
+        "source_contract_sha256": "60ef0ceeb706c3230c346d0b825cbefb30db547a09cb979783ab84be151fc792",
+        "source_counts": {
+          "gpt": 30403
+        },
+        "trajectories": 485,
+        "truncated_rows": 350,
+        "unique_actions": 30403
+      },
+      "score_only": {
+        "artifacts": {
+          "train.jsonl": {
+            "file": "score_only/train.jsonl.gz",
+            "gzip_bytes": 309528544,
+            "gzip_sha256": "7553496a031278decc251b94f63040d3166a47c096a506d995e8c331525ee89c",
+            "original_bytes": 1765169755,
+            "original_sha256": "9cb9ada8f81ed7642ec4de6a53e454f5ff5f99af20042d3c4aa2de34f0fd7873",
+            "rows": 30494
+          },
+          "train_manifest.jsonl": {
+            "file": "score_only/train_manifest.jsonl.gz",
+            "gzip_bytes": 1315033,
+            "gzip_sha256": "78a975472309967f19a4a58dd4e33ba2cb30daac254822d1641c887dc20f9526",
+            "original_bytes": 27614479,
+            "original_sha256": "7684403e8a77d59b104de82d107b0b8f2a547c9dad1b16fb2297d73ea4ab8bf7",
+            "rows": 30494
+          }
+        },
+        "rows": 30494,
+        "slates": 6114,
+        "source_contract_sha256": "3ddf11212be739d99131836f3aadc15b8615569aee3255cb6a29ec6e4a6a8313",
+        "source_counts": {
+          "gpt": 30494
+        },
+        "trajectories": 485,
+        "truncated_rows": 342,
+        "unique_actions": 30494
+      },
+      "two_stage_generator": {
+        "artifacts": {
+          "train.jsonl": {
+            "file": "two_stage_generator/train.jsonl.gz",
+            "gzip_bytes": 311205565,
+            "gzip_sha256": "2da999dca922adbdf575f6671acf370f196ebfc35cec681273bccedff6238b81",
+            "original_bytes": 1739622176,
+            "original_sha256": "50cba8749fc215031960e0df400271ed91915d1bc1e1760c3d7fd8ec02b95292",
+            "rows": 30403
+          },
+          "train_manifest.jsonl": {
+            "file": "two_stage_generator/train_manifest.jsonl.gz",
+            "gzip_bytes": 7688875,
+            "gzip_sha256": "7df43feb6240b7dce52c7f6b7b679539b72732454cef74187f81d49967a9b18f",
+            "original_bytes": 60702809,
+            "original_sha256": "f11b6f469040bf6722737463b09fa0333981cb470271b8c0274983a862993f9a",
+            "rows": 30403
+          }
+        },
+        "rows": 30403,
+        "slates": 6096,
+        "source_contract_sha256": "6fd3918bb1a7011cb54ffa31b0e7455ebc28ed3ebfe25e0e76e6e5e24716a624",
+        "source_counts": {
+          "gpt": 30403
+        },
+        "trajectories": 485,
+        "truncated_rows": 341,
+        "unique_actions": 30403
+      },
+      "two_stage_scorer": {
+        "artifacts": {
+          "train.jsonl": {
+            "file": "two_stage_scorer/train.jsonl.gz",
+            "gzip_bytes": 333727127,
+            "gzip_sha256": "3cbc32a345b7faeef05b181c44371b27d6f7bcd60e79262f90e7a3859e925c0f",
+            "original_bytes": 1800469594,
+            "original_sha256": "4c2e7d257254fa2ea1cce7b91975fb716cf0a84c5f61af606a51cdfbf35e810d",
+            "rows": 30403
+          },
+          "train_manifest.jsonl": {
+            "file": "two_stage_scorer/train_manifest.jsonl.gz",
+            "gzip_bytes": 6326111,
+            "gzip_sha256": "3bbddff3c1a1021a1fe7edca92bf5d8312db2415dd05d515ba345c2db93b7c4f",
+            "original_bytes": 54593878,
+            "original_sha256": "315f4a67139b3d1c506b1a9bc62fe94cbaf45e0519ea6e0a21191c81021d9aff",
+            "rows": 30403
+          }
+        },
+        "rows": 30403,
+        "slates": 6096,
+        "source_contract_sha256": "60ef0ceeb706c3230c346d0b825cbefb30db547a09cb979783ab84be151fc792",
+        "source_counts": {
+          "gpt": 30403
+        },
+        "trajectories": 485,
+        "truncated_rows": 344,
+        "unique_actions": 30403
+      }
+    },
+    "historical_development_rows": 5070,
+    "train_development_action_overlap": {
+      "joint_rubric": 0,
+      "score_only": 0,
+      "two_stage_generator": 0,
+      "two_stage_scorer": 0
+    },
+    "further_rubric_exclusions": 91,
+    "source_repository_notices": 91,
+    "remote_file_verification": "Hub Git blob/LFS content identities and file sizes matched the complete local upload package",
+    "url": "https://huggingface.co/datasets/zkjzou/swe-verifier-training",
+    "publication_status": "prepared_private"
+  },
+  "training": {
+    "status": "portable_four_h200_implementation",
+    "implementation": "Standalone native-token preparation and DDP training for Score Only, Joint Rubric, scorer initialization, and equal-weight shared Two-Stage training.",
+    "entrypoint": "training/launch.sh",
+    "configuration_records": "training/artifacts.json",
+    "source_references": "training/source-provenance.json",
+    "validation": {
+      "four_rank_cpu_gradient_parity": true,
+      "checkpoint_continuation": true,
+      "native_export_rows_checked": 128,
+      "full_gpu_training_run": false
+    }
+  },
+  "benchmark": {
+    "repo_id": "SWE-bench/SWE-bench_Verified",
+    "revision": "78f471bf655a3137b2e8a75af1501690ec009ec3",
+    "visibility": "public",
+    "split": "test",
+    "task_count": 500,
+    "license": null,
+    "revision_provenance": "Current Hub revision at release inventory; original experiment dataset revision was not recorded in recovered run configs.",
+    "historical_compatibility": "Verify instance IDs, base commits, and tests against saved task manifests before claiming historical dataset identity."
+  },
+  "reproduction_status": "Paper-result reproduction is not yet established for the extracted package."
+}

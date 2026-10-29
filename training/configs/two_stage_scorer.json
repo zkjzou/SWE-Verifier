@@ -1,0 +1,33 @@
+{
+  "world_size": 4,
+  "microbatch_size": 2,
+  "gradient_accumulation_steps": 2,
+  "max_length": 65536,
+  "seed": 0,
+  "warmup_steps": 172,
+  "learning_rate": 5e-06,
+  "weight_decay": 0.1,
+  "adam_betas": [
+    0.9,
+    0.999
+  ],
+  "adam_epsilon": 1e-08,
+  "max_grad_norm": 1.0,
+  "base_model": "Qwen/Qwen3.5-4B",
+  "base_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "dataset_repo": "zkjzou/swe-verifier-training",
+  "dataset_revision": "867f17b0004494b32b68d8bb03640073fdd4308e",
+  "name": "two_stage_scorer",
+  "streams": [
+    "two_stage_scorer"
+  ],
+  "rows_per_stream": 30403,
+  "max_steps": 5703,
+  "save_steps": [
+    1901,
+    3802,
+    5703
+  ],
+  "paper_selected_step": 5703,
+  "loss": "global_token_mean"
+}

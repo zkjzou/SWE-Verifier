@@ -1,0 +1,103 @@
+{% if history_message_format == "single_prompt" -%}
+{% if history_steps == -1 %}
+Trajectory so far (latest last):
+{% else %}
+Recent trajectory steps (last {{ history_steps }}, latest last):
+{% endif %}
+user: Task: {{ task }}
+{% set visible_steps = all_steps if history_steps == -1 else steps %}
+{% for step in visible_steps %}
+{% for msg in step %}
+{{ msg.role }}: {{ msg.content }}
+{% endfor %}
+{% endfor %}
+{% endif -%}
+
+
+Task: {{ task }}
+
+Candidates and future evidence:
+{% for c in candidates %}
+[{{ c.index + selection_index_base }}]
+Action:
+{{ c.content }}
+Immediate observation:
+{{ c.next_state_observed_text or "No observed immediate evidence available." }}
+{% if future_horizon|default(0)|int > 0 %}
+Future continuation:
+{{ c.future_steps_text or c.future_steps_summary_text or "No future continuation available." }}
+{% endif %}
+
+{% endfor %}
+Review the current trajectory, then follow the instructions below carefully and select the best action from the candidate actions.
+
+
+1. Summary
+First output a <summary>...</summary> section that captures the current trajectory state before scoring any candidate.
+
+Summary field definitions:
+- Task_State: concise task goal and current state.
+- Completed_Progress: confirmed useful work already done.
+- Open_Blockers: unresolved issues or evidence gaps blocking completion.
+- Constraints: safety, instruction, or repository constraints that should guide the next action.
+- Likely_Next_Needs: near-term needs the next action should satisfy.
+- Failure_Modes_To_Avoid: likely mistakes, risks, or counterproductive paths to avoid.
+
+2. Checklist
+After the summary, output a <checklist>...</checklist> section generated from the current trajectory, candidate actions, and summary.
+
+Checklist requirements:
+- Include a brief REASONING line explaining why the checklist covers the key decision criteria derived from the summary.
+- The checklist should help judge which candidate action is most able to make correct, safe, minimal progress from the current trajectory toward solving the task.
+- Each checklist item should be an observable criterion for the next action, such as confirming the right evidence, editing the right file, running the right validation, respecting safety constraints, or avoiding likely failure modes.
+- Use weights must, should, or nice to reflect how important each criterion is for choosing the best next action.
+
+3. Candidate evaluation
+For each candidate, output NEXT_STATES_PREDICTION, then checklist item scores, then candidate REASONING, then SCORE.
+
+NEXT_STATES_PREDICTION field definitions:
+- The candidate future evidence is teacher-only and may include execution results for each candidate. The student verifier will not see this evidence.
+- Use the teacher-only evidence to choose the best candidate, then distill the useful prediction signal into NEXT_STATES_PREDICTION, candidate REASONING, and SCORE so the student can learn to anticipate these outcomes from the candidate action.
+- Immediate_Observation: state the direct immediate result of executing the candidate action. Write this as an outcome, not as a reference to evidence sources; do not say "based on the provided evidence" or similar.
+{% if future_horizon|default(0)|int > 0 %}- Future_Trace: the task-relevant future action/observation progression provided for the candidate, summarized as evidence for what the candidate leads to.
+{% endif %}- Expected_Progress: how the observed or predicted immediate/future evidence changes the task state, including whether the candidate advances, stalls, or risks the task.
+
+Candidate evaluation rules:
+- Candidate CHECKLIST_ITEM_SCORES should consider the candidate's NEXT_STATES_PREDICTION and how well that predicted outcome satisfies the generated checklist.
+- Candidate REASONING and SCORE should incorporate the immediate observation, NEXT_STATES_PREDICTION, and checklist evaluation when helpful, while preserving concise candidate-local reasoning and scoring.
+- In candidate-local fields, do not mention other candidates, candidate numbers, hidden references, prompt artifacts, or evidence sources.
+- In candidate REASONING, do not mention checklist item numbers such as "Item 1" or "Item 2"; describe the criterion directly instead.
+- In CHECKLIST_ITEM_SCORES, every "- Item N:" score line must be immediately followed by an indented "REASONING:" line for that same item. Do not write one shared checklist-level REASONING line after multiple item scores.
+- Remember that the distilled student verifier will only see one candidate action at a time and will not see the immediate observation.
+
+Output format:
+<summary>
+Task_State: ...
+Completed_Progress: ...
+Open_Blockers: ...
+Constraints: ...
+Likely_Next_Needs: ...
+Failure_Modes_To_Avoid: ...
+</summary>
+<checklist>
+REASONING: <brief explanation of why these criteria matter>
+1. <atomic criterion> [weight: must|should|nice]
+</checklist>
+Repeat this candidate block once for each candidate, using that candidate's number:
+- Candidate <number>:
+  NEXT_STATES_PREDICTION:
+    Immediate_Observation: ...
+{% if future_horizon|default(0)|int > 0 %}    Future_Trace: ...
+{% endif %}    Expected_Progress: ...
+  CHECKLIST_ITEM_SCORES:
+  - Item 1: <0.0-1.0>
+    REASONING: <short reason specific to checklist item 1>
+  - Item 2: <0.0-1.0>
+    REASONING: <short reason specific to checklist item 2>
+  - Item 3: <0.0-1.0>
+    REASONING: <short reason specific to checklist item 3>
+  ... repeat for every checklist item ...
+  REASONING: <must incorporate prediction/evidence>
+  SCORE: <scalar 0.0-1.0>
+REASONING: <comparison of strongest options>
+FINAL: <number>

@@ -1,0 +1,1 @@
+The previous response did not contain a valid terminal score. Return brief REASONING followed by exactly one terminal line: SCORE: <finite number between 0.0 and 1.0>.

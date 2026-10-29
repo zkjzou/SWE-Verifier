@@ -1,0 +1,28 @@
+name: none
+description: minimax none recipe; extracted settings with explicit release adaptations
+strategy: none
+variant: untrained
+selector_role: none
+threshold: 0.3
+candidate_count: 3
+scoring_draws: 3
+format_retries: 0
+failure_policy: raise
+step_limit: 250
+max_calls: 10000
+cost_limit_usd: null
+policy_cost_limit_usd: 3.0
+wall_time_limit_seconds: 0
+rollout_count: 3
+trajectory_repetitions: 4
+policy:
+  name: openai/MiniMaxAI/MiniMax-M2.7
+  revision: null
+  backend: litellm
+  kwargs:
+    parallel_tool_calls: false
+  retries: 2
+  timeout_seconds: 1800.0
+verifier: null
+provenance_status: settings_extracted; runtime_parity_pending; explicit_native_output_cap_2048;
+  strict_format_failures

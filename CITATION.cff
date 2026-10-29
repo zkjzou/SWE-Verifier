@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "Please cite the SWE-Verifier paper when using this software."
+title: "SWE-Verifier: Selective Verification for Cost-Efficient Coding Agents"
+type: software
+authors:
+  - family-names: Zou
+    given-names: Kaijian
+  - family-names: Chennareddy
+    given-names: Vaibhav
+  - family-names: Zhang
+    given-names: Yunxiang
+  - family-names: Deng
+    given-names: Naihao
+  - family-names: Bai
+    given-names: Longju
+  - family-names: Pei
+    given-names: Jiaxin
+  - family-names: Mihalcea
+    given-names: Rada
+  - family-names: Wang
+    given-names: Lu
+repository-code: "https://github.com/zkjzou/SWE-Verifier"
+url: "https://arxiv.org/abs/2610.30284"
